@@ -5,39 +5,75 @@ import { useEffect, useRef, useState } from "react";
 const portals = [
   {
     id: "01",
-    eyebrow: "IDENTITY / PROFILE",
-    title: "个人介绍",
-    description: "关于我、我的经历与持续进行中的探索。",
-    domain: "personal.wanghuanlab.com",
-    href: "https://personal.wanghuanlab.com",
+    eyebrow: "INFRA / SERVER",
+    title: "服务器管理平台",
+    description: "服务器、应用与基础设施的统一管理入口。",
+    domain: "1panel.wanghuanlab.com",
+    href: "http://1panel.wanghuanlab.com",
     className: "portal--one",
   },
   {
     id: "02",
-    eyebrow: "ENERGY / PROTOTYPE",
-    title: "长江电力新一代\n生产经营管理系统",
-    description: "面向大型能源企业的新一代数字化管理体验。",
-    domain: "prototype.wanghuanlab.com",
-    href: "https://prototype.wanghuanlab.com/",
+    eyebrow: "AGENT / ZENTAO",
+    title: "禅道填报智能体",
+    description: "连接禅道工作流的智能填报与协作助手。",
+    domain: "zentao.wanghuanlab.com",
+    href: "http://zentao.wanghuanlab.com",
     className: "portal--two",
   },
   {
     id: "03",
-    eyebrow: "AGENT / OFFICE",
-    title: "迪爱斯 OA 智能体",
-    description: "让智能体进入日常协同与办公工作流。",
-    domain: "oa.wanghuanlab.com",
-    href: "https://oa.wanghuanlab.com/",
+    eyebrow: "KNOWLEDGE / RAG",
+    title: "RAG",
+    description: "检索增强生成与私有知识库实验平台。",
+    domain: "rag.wanghuanlab.com",
+    href: "http://rag.wanghuanlab.com",
     className: "portal--three",
   },
   {
     id: "04",
-    eyebrow: "AGENT / GROWTH",
-    title: "人才培养计划智能体",
-    description: "连接成长目标、培养路径与人才发展。",
-    domain: "tdp.wanghuanlab.com",
-    href: "https://tdp.wanghuanlab.com/",
+    eyebrow: "MIDDLEWARE / MQ",
+    title: "RocketMQ",
+    description: "消息队列与分布式事件链路管理入口。",
+    domain: "rocketmq.wanghuanlab.com",
+    href: "http://rocketmq.wanghuanlab.com",
     className: "portal--four",
+  },
+  {
+    id: "05",
+    eyebrow: "AGENT / OPENCLAW",
+    title: "龙虾智能体",
+    description: "OpenClaw 智能体的工作与交互空间。",
+    domain: "openclaw.wanghuanlab.com",
+    href: "http://openclaw.wanghuanlab.com",
+    className: "portal--five",
+  },
+  {
+    id: "06",
+    eyebrow: "VISION / USP",
+    title: "AI 视觉规范统一驾驭",
+    description: "统一生成、校准与驾驭 AI 视觉规范。",
+    domain: "usp.wanghuanlab.com",
+    href: "http://usp.wanghuanlab.com",
+    className: "portal--six",
+  },
+  {
+    id: "07",
+    eyebrow: "DATABASE / MONGODB",
+    title: "MongoDB",
+    description: "MongoDB 数据库管理与运维入口。",
+    domain: "mongo.wanghuanlab.com",
+    href: "http://mongo.wanghuanlab.com/",
+    className: "portal--seven",
+  },
+  {
+    id: "08",
+    eyebrow: "ENERGY / PROTOTYPE",
+    title: "长江电力 新一代生产经营管理系统",
+    description: "面向大型能源企业的新一代数字化生产经营管理体验。",
+    domain: "prototype.wanghuanlab.com",
+    href: "https://prototype.wanghuanlab.com",
+    className: "portal--eight portal--featured",
   },
 ];
 
@@ -162,7 +198,7 @@ export default function Home() {
           <span><b>欢的实验室</b><small>WANGHUAN LAB</small></span>
         </a>
         <div className="topbar-meta">
-          <span className="status"><i /> 4 SYSTEMS ONLINE</span>
+          <span className="status"><i /> 8 SYSTEMS ONLINE</span>
           <button className={`sound ${soundOn ? "is-on" : ""}`} type="button" onClick={toggleSound} aria-pressed={soundOn} aria-label={soundOn ? "关闭环境音乐" : "播放环境音乐"}>
             <span className="equalizer" aria-hidden="true"><i /><i /><i /><i /></span>
             {soundOn ? "AMBIENCE ON" : "PLAY AMBIENCE"}

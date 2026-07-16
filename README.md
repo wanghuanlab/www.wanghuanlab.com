@@ -1,98 +1,51 @@
-# vinext-starter
+# 欢的实验室
 
-A clean full-stack starter running on
-[vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
-Drizzle support.
+[www.wanghuanlab.com](https://www.wanghuanlab.com/) 的导航入口站点，集中展示 Wanghuan Lab 的服务器工具、智能体、知识库与产品原型。
 
-## Prerequisites
+## 环境要求
 
 - Node.js `>=22.13.0`
+- npm
 
-## Quick Start
+## 本地开发
 
 ```bash
 npm install
 npm run dev
+```
+
+## 构建
+
+验证 Vinext 应用构建：
+
+```bash
 npm run build
 ```
 
-This starter does not use `wrangler.jsonc`.
+生成可直接由 Nginx 或 1Panel 托管的静态版本：
 
-## Included Shape
-
-- edit site code under `app/`
-- `.openai/hosting.json` declares optional Sites D1 and R2 bindings
-- `vite.config.ts` simulates declared bindings for local development
-- `db/schema.ts` starts intentionally empty
-- `examples/d1/` contains an optional D1 example surface
-- `drizzle.config.ts` supports local migration generation when needed
-
-## Workspace Auth Headers
-
-OpenAI workspace sites can read the current user's email from
-`oai-authenticated-user-email`.
-
-SIWC-authenticated workspace sites may also receive
-`oai-authenticated-user-full-name` when the user's SIWC profile has a non-empty
-`name` claim. The full-name value is percent-encoded UTF-8 and is accompanied by
-`oai-authenticated-user-full-name-encoding: percent-encoded-utf-8`.
-
-Treat the full name as optional and fall back to email when it is absent:
-
-```tsx
-import { headers } from "next/headers";
-
-export default async function Home() {
-  const requestHeaders = await headers();
-  const email = requestHeaders.get("oai-authenticated-user-email");
-  const encodedFullName = requestHeaders.get("oai-authenticated-user-full-name");
-  const fullName =
-    encodedFullName &&
-    requestHeaders.get("oai-authenticated-user-full-name-encoding") ===
-      "percent-encoded-utf-8"
-      ? decodeURIComponent(encodedFullName)
-      : null;
-
-  const displayName = fullName ?? email;
-  // ...
-}
+```bash
+npm run build:static
 ```
 
-## Optional Dispatch-Owned ChatGPT Sign-In
+静态产物位于 `release/`。
 
-Import the ready-to-use helpers from `app/chatgpt-auth.ts` when the site needs
-optional or required ChatGPT sign-in:
+## 通过 SCP 发布
 
-- Use `getChatGPTUser()` for optional signed-in UI.
-- Use `requireChatGPTUser(returnTo)` for server-rendered pages that should send
-  anonymous visitors through Sign in with ChatGPT.
-- Use `chatGPTSignInPath(returnTo)` and `chatGPTSignOutPath(returnTo)` for
-  browser links or actions.
-- Pass a same-origin relative `returnTo` path for the destination after sign-in
-  or sign-out. The helper validates and safely encodes it.
-- Mark protected pages with `export const dynamic = "force-dynamic"` because
-  they depend on per-request identity headers.
+部署脚本会执行以下操作：
 
-Dispatch owns `/signin-with-chatgpt`, `/signout-with-chatgpt`, `/callback`, the
-OAuth cookies, and identity header injection. Do not implement app routes for
-those reserved paths. Routes that do not import and call the helper remain
-anonymous-compatible.
+1. 生成最新静态版本。
+2. 将压缩包通过 SCP 上传到服务器。
+3. 清理并替换 `/opt/1panel/www/sites/www.wanghuanlab.com/index` 中的文件。
 
-SIWC establishes identity only; it does not prove workspace membership. Use the
-Sites hosting platform's access policy controls for workspace-wide restrictions,
-or enforce explicit server-side membership or allowlist checks.
+```bash
+npm run deploy:scp -- root@your-server
+```
 
-Use SIWC for account pages, user-specific dashboards, saved records, and write
-actions tied to the current ChatGPT user. Leave public content anonymous.
+使用自定义 SSH 端口：
 
-## Useful Commands
+```bash
+DEPLOY_SSH_PORT=2222 npm run deploy:scp -- root@your-server
+```
 
-- `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
-- `npm run db:generate`: generate Drizzle migrations after schema changes
-
-## Learn More
-
-- [vinext Documentation](https://github.com/cloudflare/vinext)
-- [Drizzle D1 Guide](https://orm.drizzle.team/docs/get-started/d1-new)
+也可以通过 `DEPLOY_SSH_TARGET` 指定服务器。无人值守环境可设置 `DEPLOY_CONFIRM=yes` 跳过人工确认。建议使用 SSH 密钥，不要在脚本或仓库中保存密码。
