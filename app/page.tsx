@@ -153,28 +153,30 @@ export default function Home() {
       <div className="ambient ambient--one" aria-hidden="true" />
       <div className="ambient ambient--two" aria-hidden="true" />
       <header className="topbar">
-        <a className="brand" href="#top" aria-label="欢的实验室首页">
-          <span className="brand-mark"><i /></span>
-          <span><b>欢的实验室</b><small>WANGHUAN LAB</small></span>
-        </a>
-        <div className="topbar-meta">
-          <span className="status"><i /> 8 SYSTEMS ONLINE</span>
-          <div className={`music-shell ${musicOpen ? "is-open" : ""}`}>
-            <button className="music-capsule" type="button" onClick={() => setMusicOpen((open) => !open)} aria-expanded={musicOpen} aria-controls="netease-player">
-              <span className="music-bars" aria-hidden="true"><i /><i /><i /><i /></span>
-              <span><small>NOW PLAYING</small><b>PLAY · K-391</b></span>
-              <span className="music-toggle" aria-hidden="true">{musicOpen ? "×" : "+"}</span>
-            </button>
-            <div className="music-panel" id="netease-player" aria-hidden={!musicOpen}>
-              <iframe
-                title="网易云音乐：K-391、Alan Walker、Tungevaag、Mangoo《Play》"
-                src="https://music.163.com/outchain/player?type=2&id=1387559099&auto=1&height=66"
-                width="330"
-                height="86"
-                allow="autoplay; encrypted-media"
-                loading="eager"
-                tabIndex={musicOpen ? 0 : -1}
-              />
+        <div className="topbar-inner">
+          <a className="brand" href="#top" aria-label="欢的实验室首页">
+            <span className="brand-mark"><i /></span>
+            <span><b>欢的实验室</b><small>WANGHUAN LAB</small></span>
+          </a>
+          <div className="topbar-meta">
+            <span className="status"><i /> 8 SYSTEMS ONLINE</span>
+            <div className={`music-shell ${musicOpen ? "is-open" : ""}`}>
+              <button className="music-capsule" type="button" onClick={() => setMusicOpen((open) => !open)} aria-expanded={musicOpen} aria-controls="netease-player">
+                <span className="music-bars" aria-hidden="true"><i /><i /><i /><i /></span>
+                <span><small>NOW PLAYING</small><b>PLAY · K-391</b></span>
+                <span className="music-toggle" aria-hidden="true">{musicOpen ? "×" : "+"}</span>
+              </button>
+              <div className="music-panel" id="netease-player" aria-hidden={!musicOpen}>
+                <iframe
+                  title="网易云音乐：K-391、Alan Walker、Tungevaag、Mangoo《Play》"
+                  src="https://music.163.com/outchain/player?type=2&id=1387559099&auto=1&height=66"
+                  width="330"
+                  height="86"
+                  allow="autoplay; encrypted-media"
+                  loading="eager"
+                  tabIndex={musicOpen ? 0 : -1}
+                />
+              </div>
             </div>
           </div>
         </div>
