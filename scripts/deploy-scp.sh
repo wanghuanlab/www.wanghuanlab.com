@@ -46,7 +46,7 @@ archive="$(mktemp -t wanghuanlab-release.XXXXXX).tar.gz"
 remote_archive="/tmp/www.wanghuanlab.com-$(date +%s).tar.gz"
 trap 'rm -f "$archive"' EXIT
 
-tar -czf "$archive" -C release .
+COPYFILE_DISABLE=1 tar --no-xattrs -czf "$archive" -C release .
 
 ssh -p "$SSH_PORT" "$SSH_TARGET" "mkdir -p '$REMOTE_PATH'"
 scp -P "$SSH_PORT" "$archive" "$SSH_TARGET:$remote_archive"
