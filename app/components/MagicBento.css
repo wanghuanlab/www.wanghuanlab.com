@@ -1,0 +1,63 @@
+.magic-bento-grid {
+  --magic-glow-x: 50%;
+  --magic-glow-y: 50%;
+  --magic-glow-intensity: 0;
+  --magic-glow-radius: 280px;
+}
+
+.magic-bento-card {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.magic-border-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 2px;
+  background: radial-gradient(var(--magic-glow-radius) circle at var(--magic-glow-x) var(--magic-glow-y), rgba(var(--magic-rgb), calc(var(--magic-glow-intensity) * .9)) 0%, rgba(var(--magic-rgb), calc(var(--magic-glow-intensity) * .34)) 34%, transparent 68%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.magic-bento-particle {
+  position: absolute;
+  z-index: 3;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(var(--magic-rgb), .95);
+  box-shadow: 0 0 8px rgba(var(--magic-rgb), .75);
+  pointer-events: none;
+}
+
+.magic-bento-ripple {
+  position: absolute;
+  z-index: 4;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--magic-rgb), .26), rgba(var(--magic-rgb), .1) 35%, transparent 70%);
+  pointer-events: none;
+}
+
+.magic-global-spotlight {
+  --magic-rgb: 57, 243, 255;
+  position: fixed;
+  z-index: 18;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(var(--magic-rgb), .12), rgba(var(--magic-rgb), .055) 22%, rgba(var(--magic-rgb), .018) 44%, transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  will-change: left, top, opacity;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .magic-bento-card { will-change: auto; }
+  .magic-border-glow { display: none; }
+}

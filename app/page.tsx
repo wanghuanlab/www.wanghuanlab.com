@@ -1,6 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Lightfall from "./components/Lightfall";
+import { MagicBentoCard, MagicBentoGrid } from "./components/MagicBento";
+
+const LIGHTFALL_COLORS = ["#39F3FF", "#6B62FF", "#B85CFF"];
 
 const portals = [
   {
@@ -208,6 +212,28 @@ export default function Home() {
   return (
     <main className="laboratory">
       <ParticleField />
+      <div className="lightfall-layer" aria-hidden="true">
+        <Lightfall
+          colors={LIGHTFALL_COLORS}
+          backgroundColor="#070A1E"
+          speed={0.58}
+          streakCount={4}
+          streakWidth={0.8}
+          streakLength={1.4}
+          glow={0.72}
+          density={0.68}
+          twinkle={0.72}
+          zoom={2.7}
+          backgroundGlow={0.26}
+          opacity={0.4}
+          mouseInteraction
+          mouseStrength={0.75}
+          mouseRadius={0.78}
+          mouseDampening={0.18}
+          mixBlendMode="screen"
+          dpr={1.25}
+        />
+      </div>
       <div className="ambient ambient--one" aria-hidden="true" />
       <div className="ambient ambient--two" aria-hidden="true" />
       <header className="topbar">
@@ -260,9 +286,9 @@ export default function Home() {
           <span className="coordinate coordinate--two">121.4737° E</span>
         </div>
 
-        <nav className="portal-grid" aria-label="实验室项目导航">
+        <MagicBentoGrid className="portal-grid" aria-label="实验室项目导航" glowColor="57, 243, 255" spotlightRadius={300}>
           {portals.map((portal) => (
-            <a key={portal.id} className={`portal ${portal.className}`} href={portal.href} target="_blank" rel="noreferrer" onPointerEnter={(event) => event.pointerType === "mouse" && playPortalHover(Number(portal.id))}>
+            <MagicBentoCard key={portal.id} className={`portal ${portal.className}`} href={portal.href} target="_blank" rel="noreferrer" glowColor={Number(portal.id) % 2 === 0 ? "107, 98, 255" : "57, 243, 255"} particleCount={6} onPointerEnter={(event) => event.pointerType === "mouse" && playPortalHover(Number(portal.id))}>
               <span className="portal-index">{portal.id}</span>
               <span className="portal-copy">
                 <span className="portal-eyebrow">{portal.eyebrow}</span>
@@ -271,9 +297,9 @@ export default function Home() {
                 <span className="portal-domain"><i />{portal.domain}</span>
               </span>
               <span className="portal-arrow" aria-hidden="true">↗</span>
-            </a>
+            </MagicBentoCard>
           ))}
-        </nav>
+        </MagicBentoGrid>
       </section>
 
       <footer>
