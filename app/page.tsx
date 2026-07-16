@@ -146,6 +146,64 @@ function ParticleField() {
 
 export default function Home() {
   const [musicOpen, setMusicOpen] = useState(false);
+  const hoverAudioRef = useRef<AudioContext | null>(null);
+
+  const getHoverAudio = () => {
+    hoverAudioRef.current ??= new AudioContext();
+    return hoverAudioRef.current;
+  };
+
+  const playPortalHover = (portalNumber: number) => {
+    const audio = getHoverAudio();
+    const emit = () => {
+      if (audio.state !== "running") return;
+      const now = audio.currentTime;
+      const baseFrequency = 460 + portalNumber * 24;
+      const master = audio.createGain();
+      const primary = audio.createOscillator();
+      const shimmer = audio.createOscillator();
+
+      primary.type = "sine";
+      primary.frequency.setValueAtTime(baseFrequency, now);
+      primary.frequency.exponentialRampToValueAtTime(baseFrequency * 1.42, now + 0.075);
+      shimmer.type = "triangle";
+      shimmer.frequency.setValueAtTime(baseFrequency * 2.02, now);
+      shimmer.frequency.exponentialRampToValueAtTime(baseFrequency * 1.72, now + 0.065);
+
+      master.gain.setValueAtTime(0.0001, now);
+      master.gain.exponentialRampToValueAtTime(0.028, now + 0.008);
+      master.gain.exponentialRampToValueAtTime(0.0001, now + 0.095);
+      primary.connect(master);
+      shimmer.connect(master);
+      master.connect(audio.destination);
+      primary.start(now);
+      shimmer.start(now);
+      primary.stop(now + 0.1);
+      shimmer.stop(now + 0.1);
+    };
+
+    if (audio.state === "suspended") {
+      void audio.resume().then(emit).catch(() => undefined);
+    } else {
+      emit();
+    }
+  };
+
+  useEffect(() => {
+    const unlockAudio = () => {
+      const audio = getHoverAudio();
+      if (audio.state === "suspended") void audio.resume().catch(() => undefined);
+    };
+
+    window.addEventListener("pointerdown", unlockAudio, { once: true });
+    window.addEventListener("keydown", unlockAudio, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("keydown", unlockAudio);
+      void hoverAudioRef.current?.close();
+      hoverAudioRef.current = null;
+    };
+  }, []);
 
   return (
     <main className="laboratory">
@@ -204,7 +262,7 @@ export default function Home() {
 
         <nav className="portal-grid" aria-label="实验室项目导航">
           {portals.map((portal) => (
-            <a key={portal.id} className={`portal ${portal.className}`} href={portal.href} target="_blank" rel="noreferrer">
+            <a key={portal.id} className={`portal ${portal.className}`} href={portal.href} target="_blank" rel="noreferrer" onPointerEnter={(event) => event.pointerType === "mouse" && playPortalHover(Number(portal.id))}>
               <span className="portal-index">{portal.id}</span>
               <span className="portal-copy">
                 <span className="portal-eyebrow">{portal.eyebrow}</span>
