@@ -244,8 +244,8 @@ export default function Home() {
 
       <footer>
         <span>© 2026 WANGHUAN LAB</span>
-        <span>SHANGHAI · CN</span>
-        <span className="scroll-note">MOVE CURSOR TO SHIFT THE FIELD</span>
+        <a className="icp" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">苏ICP备2026043670号</a>
+        <span className="location">SHANGHAI · CN</span>
       </footer>
     </main>
   );
