@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const portals = [
   {
@@ -145,48 +145,6 @@ function ParticleField() {
 }
 
 export default function Home() {
-  const [soundOn, setSoundOn] = useState(false);
-  const audioRef = useRef<{ context: AudioContext; nodes: AudioNode[] } | null>(null);
-
-  const toggleSound = () => {
-    if (audioRef.current) {
-      audioRef.current.context.close();
-      audioRef.current = null;
-      setSoundOn(false);
-      return;
-    }
-
-    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-    const audioContext = new AudioContextClass();
-    const master = audioContext.createGain();
-    master.gain.setValueAtTime(0.0001, audioContext.currentTime);
-    master.gain.exponentialRampToValueAtTime(0.045, audioContext.currentTime + 1.8);
-    master.connect(audioContext.destination);
-
-    const frequencies = [55, 82.41, 110];
-    const nodes: AudioNode[] = [master];
-    frequencies.forEach((frequency, index) => {
-      const oscillator = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      const filter = audioContext.createBiquadFilter();
-      oscillator.type = index === 0 ? "sine" : "triangle";
-      oscillator.frequency.value = frequency;
-      oscillator.detune.value = index * 4 - 3;
-      gain.gain.value = index === 0 ? 0.34 : 0.12;
-      filter.type = "lowpass";
-      filter.frequency.value = 280 + index * 100;
-      oscillator.connect(filter).connect(gain).connect(master);
-      oscillator.start();
-      nodes.push(oscillator, gain, filter);
-    });
-    audioRef.current = { context: audioContext, nodes };
-    setSoundOn(true);
-  };
-
-  useEffect(() => () => {
-    audioRef.current?.context.close();
-  }, []);
-
   return (
     <main className="laboratory">
       <ParticleField />
@@ -199,10 +157,16 @@ export default function Home() {
         </a>
         <div className="topbar-meta">
           <span className="status"><i /> 8 SYSTEMS ONLINE</span>
-          <button className={`sound ${soundOn ? "is-on" : ""}`} type="button" onClick={toggleSound} aria-pressed={soundOn} aria-label={soundOn ? "关闭环境音乐" : "播放环境音乐"}>
-            <span className="equalizer" aria-hidden="true"><i /><i /><i /><i /></span>
-            {soundOn ? "AMBIENCE ON" : "PLAY AMBIENCE"}
-          </button>
+          <div className="music-player">
+            <iframe
+              title="网易云音乐：K-391、Alan Walker、Tungevaag、Mangoo《Play》"
+              src="https://music.163.com/outchain/player?type=2&id=1387559099&auto=1&height=66"
+              width="330"
+              height="86"
+              allow="autoplay; encrypted-media"
+              loading="eager"
+            />
+          </div>
         </div>
       </header>
 
@@ -249,10 +213,4 @@ export default function Home() {
       </footer>
     </main>
   );
-}
-
-declare global {
-  interface Window {
-    webkitAudioContext: typeof AudioContext;
-  }
 }
