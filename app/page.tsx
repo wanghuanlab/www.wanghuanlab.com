@@ -72,12 +72,21 @@ const portals = [
   },
   {
     id: "08",
+    eyebrow: "UTILITY / TRANSFER",
+    title: "文件中转服务",
+    description: "轻量、安全的临时文件上传、分享与中转入口。",
+    domain: "image.wanghuanlab.com",
+    href: "https://image.wanghuanlab.com/#/",
+    className: "portal--eight",
+  },
+  {
+    id: "09",
     eyebrow: "ENERGY / PROTOTYPE",
     title: "长江电力 新一代生产经营管理系统",
     description: "面向大型能源企业的新一代数字化生产经营管理体验。",
     domain: "prototype.wanghuanlab.com",
     href: "https://prototype.wanghuanlab.com",
-    className: "portal--eight portal--featured",
+    className: "portal--nine portal--featured",
   },
 ];
 
@@ -243,7 +252,7 @@ export default function Home() {
             <span><b>欢的实验室</b><small>WANGHUAN LAB</small></span>
           </a>
           <div className="topbar-meta">
-            <span className="status"><i /> 8 SYSTEMS ONLINE</span>
+            <span className="status"><i /> 9 SYSTEMS ONLINE</span>
             <div className={`music-shell ${musicOpen ? "is-open" : ""}`}>
               <button className="music-capsule" type="button" onClick={() => setMusicOpen((open) => !open)} aria-expanded={musicOpen} aria-controls="netease-player">
                 <span className="music-bars" aria-hidden="true"><i /><i /><i /><i /></span>
