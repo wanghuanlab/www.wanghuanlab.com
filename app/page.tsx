@@ -75,8 +75,8 @@ const portals = [
     eyebrow: "UTILITY / TRANSFER",
     title: "文件中转服务",
     description: "轻量、安全的临时文件上传、分享与中转入口。",
-    domain: "image.wanghuanlab.com",
-    href: "https://image.wanghuanlab.com/#/",
+    domain: "oss.wanghuanlab.com",
+    href: "https://oss.wanghuanlab.com/",
     className: "portal--eight",
   },
   {
