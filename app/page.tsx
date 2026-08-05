@@ -15,6 +15,7 @@ const portals = [
     domain: "1panel.wanghuanlab.com",
     href: "http://1panel.wanghuanlab.com",
     className: "portal--one",
+    categories: ["common", "infrastructure"],
   },
   {
     id: "02",
@@ -24,6 +25,7 @@ const portals = [
     domain: "zentao.wanghuanlab.com",
     href: "http://zentao.wanghuanlab.com",
     className: "portal--two",
+    categories: ["common", "agents"],
   },
   {
     id: "03",
@@ -33,6 +35,7 @@ const portals = [
     domain: "rag.wanghuanlab.com",
     href: "http://rag.wanghuanlab.com",
     className: "portal--three",
+    categories: ["infrastructure"],
   },
   {
     id: "04",
@@ -42,6 +45,7 @@ const portals = [
     domain: "rocketmq.wanghuanlab.com",
     href: "http://rocketmq.wanghuanlab.com",
     className: "portal--four",
+    categories: ["infrastructure"],
   },
   {
     id: "05",
@@ -51,6 +55,7 @@ const portals = [
     domain: "openclaw.wanghuanlab.com",
     href: "http://openclaw.wanghuanlab.com",
     className: "portal--five",
+    categories: ["agents"],
   },
   {
     id: "06",
@@ -60,6 +65,7 @@ const portals = [
     domain: "usp.wanghuanlab.com",
     href: "http://usp.wanghuanlab.com",
     className: "portal--six",
+    categories: ["agents"],
   },
   {
     id: "07",
@@ -69,6 +75,7 @@ const portals = [
     domain: "mongo.wanghuanlab.com",
     href: "http://mongo.wanghuanlab.com/",
     className: "portal--seven",
+    categories: ["infrastructure"],
   },
   {
     id: "08",
@@ -78,6 +85,7 @@ const portals = [
     domain: "oss.wanghuanlab.com",
     href: "https://oss.wanghuanlab.com/",
     className: "portal--eight",
+    categories: ["common", "tools"],
   },
   {
     id: "09",
@@ -86,8 +94,38 @@ const portals = [
     description: "面向大型能源企业的新一代数字化生产经营管理体验。",
     domain: "prototype.wanghuanlab.com",
     href: "https://prototype.wanghuanlab.com",
-    className: "portal--nine portal--featured",
+    className: "portal--nine",
+    categories: ["common", "projects"],
   },
+  {
+    id: "10",
+    eyebrow: "INVEST / LAB",
+    title: "Invest Lab",
+    description: "投资研究、资产观察与机会洞察的个人实验空间。",
+    domain: "invest.wanghuanlab.com",
+    href: "https://invest.wanghuanlab.com/",
+    className: "portal--ten",
+    categories: ["projects"],
+  },
+  {
+    id: "11",
+    eyebrow: "AI / VIBE CODING",
+    title: "VibeCoding 实战培训",
+    description: "从 AI 辅助编码到智能开发工作流的实战学习空间。",
+    domain: "vibecoding.wanghuanlab.com",
+    href: "https://vibecoding.wanghuanlab.com/",
+    className: "portal--eleven",
+    categories: ["tools"],
+  },
+];
+
+const portalTabs = [
+  { id: "all", label: "全部" },
+  { id: "common", label: "常用入口" },
+  { id: "infrastructure", label: "基础设施" },
+  { id: "agents", label: "智能体" },
+  { id: "tools", label: "工具服务" },
+  { id: "projects", label: "项目作品" },
 ];
 
 function ParticleField() {
@@ -159,7 +197,10 @@ function ParticleField() {
 
 export default function Home() {
   const [musicOpen, setMusicOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [showScrollHint, setShowScrollHint] = useState(false);
   const hoverAudioRef = useRef<AudioContext | null>(null);
+  const visiblePortals = activeCategory === "all" ? portals : portals.filter((portal) => portal.categories.includes(activeCategory));
 
   const getHoverAudio = () => {
     hoverAudioRef.current ??= new AudioContext();
@@ -218,6 +259,22 @@ export default function Home() {
     };
   }, []);
 
+  useEffect(() => {
+    const updateScrollHint = () => {
+      const grid = document.getElementById("portal-navigation");
+      if (!grid) return;
+      const remaining = grid.scrollHeight - grid.clientHeight - grid.scrollTop;
+      setShowScrollHint(grid.scrollHeight > grid.clientHeight + 4 && remaining > 4);
+    };
+
+    const frame = window.requestAnimationFrame(updateScrollHint);
+    window.addEventListener("resize", updateScrollHint);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", updateScrollHint);
+    };
+  }, [activeCategory]);
+
   return (
     <main className="laboratory">
       <ParticleField />
@@ -252,7 +309,7 @@ export default function Home() {
             <span><b>欢的实验室</b><small>WANGHUAN LAB</small></span>
           </a>
           <div className="topbar-meta">
-            <span className="status"><i /> 9 SYSTEMS ONLINE</span>
+            <span className="status"><i /> 11 SYSTEMS ONLINE</span>
             <div className={`music-shell ${musicOpen ? "is-open" : ""}`}>
               <button className="music-capsule" type="button" onClick={() => setMusicOpen((open) => !open)} aria-expanded={musicOpen} aria-controls="netease-player">
                 <span className="music-bars" aria-hidden="true"><i /><i /><i /><i /></span>
@@ -295,20 +352,43 @@ export default function Home() {
           <span className="coordinate coordinate--two">121.4737° E</span>
         </div>
 
-        <MagicBentoGrid className="portal-grid" aria-label="实验室项目导航" glowColor="57, 243, 255" spotlightRadius={300}>
-          {portals.map((portal) => (
-            <MagicBentoCard key={portal.id} className={`portal ${portal.className}`} href={portal.href} target="_blank" rel="noreferrer" glowColor={Number(portal.id) % 2 === 0 ? "107, 98, 255" : "57, 243, 255"} particleCount={6} onPointerEnter={(event) => event.pointerType === "mouse" && playPortalHover(Number(portal.id))}>
-              <span className="portal-index">{portal.id}</span>
-              <span className="portal-copy">
-                <span className="portal-eyebrow">{portal.eyebrow}</span>
-                <strong>{portal.title.split("\n").map((line, index) => <span key={line}>{line}{index === 0 && portal.title.includes("\n") ? <br /> : null}</span>)}</strong>
-                <span className="portal-description">{portal.description}</span>
-                <span className="portal-domain"><i />{portal.domain}</span>
-              </span>
-              <span className="portal-arrow" aria-hidden="true">↗</span>
-            </MagicBentoCard>
-          ))}
-        </MagicBentoGrid>
+        <div className="navigation-stack">
+          <div className="portal-tabs" aria-label="实验室导航分类">
+            {portalTabs.map((tab) => (
+              <button
+                key={tab.id}
+                id={`portal-tab-${tab.id}`}
+                className={`portal-tab ${activeCategory === tab.id ? "is-active" : ""}`}
+                type="button"
+                aria-pressed={activeCategory === tab.id}
+                aria-controls="portal-navigation"
+                onClick={() => setActiveCategory(tab.id)}
+              >
+                {tab.label}
+                <span>{(tab.id === "all" ? portals.length : portals.filter((portal) => portal.categories.includes(tab.id)).length).toString().padStart(2, "0")}</span>
+              </button>
+            ))}
+            {showScrollHint && <span className="portal-scroll-hint" aria-live="polite">SCROLL FOR MORE <b>↓</b></span>}
+          </div>
+          <MagicBentoGrid key={activeCategory} id="portal-navigation" className="portal-grid" aria-label="实验室项目导航" aria-labelledby={`portal-tab-${activeCategory}`} glowColor="57, 243, 255" spotlightRadius={300} onScroll={(event) => {
+            const grid = event.currentTarget;
+            const remaining = grid.scrollHeight - grid.clientHeight - grid.scrollTop;
+            setShowScrollHint(grid.scrollHeight > grid.clientHeight + 4 && remaining > 4);
+          }}>
+            {visiblePortals.map((portal) => (
+              <MagicBentoCard key={portal.id} className={`portal ${portal.className}`} href={portal.href} target="_blank" rel="noreferrer" glowColor={Number(portal.id) % 2 === 0 ? "107, 98, 255" : "57, 243, 255"} particleCount={6} onPointerEnter={(event) => event.pointerType === "mouse" && playPortalHover(Number(portal.id))}>
+                <span className="portal-index">{portal.id}</span>
+                <span className="portal-copy">
+                  <span className="portal-eyebrow">{portal.eyebrow}</span>
+                  <strong>{portal.title.split("\n").map((line, index) => <span key={line}>{line}{index === 0 && portal.title.includes("\n") ? <br /> : null}</span>)}</strong>
+                  <span className="portal-description">{portal.description}</span>
+                  <span className="portal-domain"><i />{portal.domain}</span>
+                </span>
+                <span className="portal-arrow" aria-hidden="true">↗</span>
+              </MagicBentoCard>
+            ))}
+          </MagicBentoGrid>
+        </div>
       </section>
 
       <footer>
