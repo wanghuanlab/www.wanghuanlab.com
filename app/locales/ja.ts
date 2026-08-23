@@ -1,0 +1,173 @@
+import type { TranslationSchema } from "./types";
+
+export const ja: TranslationSchema = {
+  brand: {
+    title: "歓のラボ",
+    sub: "WANGHUAN LAB",
+  },
+  topbar: {
+    liteOn: "LITE",
+    liteOff: "LITE",
+    liteTitleOn: "省電力モードが有効です。クリックでオフ",
+    liteTitleOff: "省電力モードを有効化（背景アニメーションを軽減）",
+    probing: "PROBING…",
+    checking: "CHECKING…",
+    online: "ONLINE",
+    httpCount: "HTTP",
+    refreshTitle: "クリックしてオンライン状態を再確認",
+    searchTitle: "ポータルを検索（⌘K / Ctrl+K）",
+    about: "ABOUT",
+    updates: "UPDATES",
+    nowPlaying: "NOW PLAYING",
+  },
+  hero: {
+    kickerExplore: "EXPLORE",
+    kickerSub: "DIGITAL FRONTIER",
+    titleLine1: "新しいアイデアが、",
+    titleLine2: "ここで生まれる。",
+    subtitle: "歓のラボへようこそ。ここでは自作のデジタルプロダクト、AIエージェント、進化中の実験プロジェクトを集約しています。",
+    coreBadge: "LAB CORE",
+  },
+  tabs: {
+    all: "すべて",
+    common: "常用ポータル",
+    infrastructure: "インフラ",
+    agents: "AIエージェント",
+    tools: "ツール・機能",
+    projects: "プロジェクト",
+    recent: "最近",
+    scrollHint: "SCROLL FOR MORE ↓",
+  },
+  portalCard: {
+    pin: "ピン留め",
+    unpin: "ピン留め解除",
+  },
+  status: {
+    stable: "安定",
+    beta: "BETA",
+    experimental: "実験",
+  },
+  portals: {
+    "01": {
+      eyebrow: "INFRA / SERVER",
+      title: "サーバー管理プラットフォーム",
+      description: "サーバー、アプリケーション、インフラの一体型管理ポータル。",
+    },
+    "02": {
+      eyebrow: "AGENT / ZENTAO",
+      title: "禅道入力AIエージェント",
+      description: "ZenTao ワークフローと連携するスマート入力・協调アシスタント。",
+    },
+    "03": {
+      eyebrow: "KNOWLEDGE / RAG",
+      title: "RAG ナレッジプラットフォーム",
+      description: "検索拡張生成（RAG）とプライベートナレッジベース実験基盤。",
+    },
+    "04": {
+      eyebrow: "MIDDLEWARE / MQ",
+      title: "RocketMQ コンソール",
+      description: "メッセージキューと分散イベントストリーム管理ポータル。",
+    },
+    "05": {
+      eyebrow: "AGENT / OPENCLAW",
+      title: "OpenClaw エージェント",
+      description: "OpenClaw 自律エージェントの作業・インタラクション空間。",
+    },
+    "06": {
+      eyebrow: "VISION / USP",
+      title: "AIビジョン標準制御スイート",
+      description: "AIビジョン標準の生成・校正・統制をワンストップで実現。",
+    },
+    "07": {
+      eyebrow: "DATABASE / MONGODB",
+      title: "MongoDB マネージャー",
+      description: "MongoDB データベース管理および運用コンソール。",
+    },
+    "08": {
+      eyebrow: "UTILITY / TRANSFER",
+      title: "ファイル転送・OSSサービス",
+      description: "軽量で安全な一時的ファイルアップロード・共有・転送ポータル。",
+    },
+    "09": {
+      eyebrow: "ENERGY / PROTOTYPE",
+      title: "長江電力 次世代生産経営管理システム",
+      description: "大型エネルギー企業向けの次世代デジタル生産経営管理体験。",
+    },
+    "10": {
+      eyebrow: "INVEST / LAB",
+      title: "Invest Lab",
+      description: "投資リサーチ、資産モニタリング、市場考察のプライベート実験空間。",
+    },
+    "11": {
+      eyebrow: "AI / VIBE CODING",
+      title: "VibeCoding 実践トレーニング",
+      description: "AI補助コーディングからインテリジェント開発フローまでの実践空間。",
+    },
+  },
+  search: {
+    placeholder: "タイトル、説明、ドメイン、カテゴリで検索…",
+    hintEmpty: "キーワードを入力してポータルを検索します。",
+    hintNoResult: "一致するポータルが見つかりません。",
+    kbdSelect: "↑↓ 選択",
+    kbdOpen: "↵ 開く",
+    kbdClose: "esc 閉じる",
+    dialogTitle: "ラボポータル検索",
+  },
+  about: {
+    title: "ラボについて",
+    eyebrow: "ABOUT / WANGHUAN LAB",
+    p1: "歓のラボ（Wanghuan Lab）は、セルフホストサーバー、AIエージェント、ナレッジベース、アイデアのプロトタイプを構築・検証する個人のデジタルラボです。",
+    p2: "掲載されているすべてのポータルは実際に運用しているサービスです。インフラ、AIエージェント、ツール、作品をカテゴリ別で整理し、HTTPS接続の状態をリアルタイムで検知します。",
+    factOnline: "オンラインポータル",
+    factStable: "安定サービス",
+    factGrowing: "持続的に進化中",
+    contact: "フィードバック・お問い合わせ：各ポータル内でメッセージを残すか、UPDATES パネルで最新情報をご確認ください。",
+  },
+  updates: {
+    title: "更新履歴",
+    eyebrow: "UPDATES / CHANGELOG",
+    changelog: [
+      {
+        date: "2026-08-23",
+        tag: "v0.3",
+        title: "ナビゲーション機能の強化",
+        items: [
+          "Cmd+K による全ポータルのクイック検索",
+          "リアルタイムHTTPS状態検出とHTTP明示タグ",
+          "手動ピン留め優先表示（その他は順序固定）",
+          "Lite 省電力モード（手動切り替え対応）",
+          "ステータスタグの右上固定配置",
+          "WebGL 非対応環境向けの背景フォールバック",
+          "ラボについて＆更新履歴パネルの追加",
+        ],
+      },
+      {
+        date: "2026-08-05",
+        tag: "v0.2.1",
+        title: "フィルタリングとレイアウトの最適化",
+        items: ["カテゴリフィルターとスクロールヒント", "ファーストビューおよび超ワイドスクリーンの最適化"],
+      },
+      {
+        date: "2026-07-16",
+        tag: "v0.2",
+        title: "視覚・聴覚体験の向上",
+        items: [
+          "Lightfall 光の雨バックグラウンド",
+          "MagicBento カードのスポットライト・粒子・波紋",
+          "ホバー時の音声合成フィードバックと音楽カプセル",
+        ],
+      },
+      {
+        date: "2026-07-10",
+        tag: "v0.1",
+        title: "ラボ正式公開",
+        items: ["11個のポータルナビゲーション公開", "百度統計アクセス解析の導入"],
+      },
+    ],
+  },
+  footer: {
+    copyright: "© 2026 WANGHUAN LAB",
+    icp: "蘇ICP備2026043670号",
+    location: "SUZHOU · CN",
+  },
+};

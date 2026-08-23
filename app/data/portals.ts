@@ -4,6 +4,8 @@
  * https 为 false 的子域名暂未配置 HTTPS 证书（见 docs/server-optimization.md）。
  */
 
+import type { TranslationSchema } from "../locales";
+
 export type PortalCategory = "common" | "infrastructure" | "agents" | "tools" | "projects";
 export type PortalStatus = "stable" | "beta" | "experimental";
 export type PortalIcon = "server" | "clipboard" | "layers" | "queue" | "bot" | "eye" | "database" | "transfer" | "energy" | "chart" | "code";
@@ -184,3 +186,46 @@ export const CATEGORY_LABELS: Record<PortalCategory, string> = {
   tools: "工具服务",
   projects: "项目作品",
 };
+
+export function getLocalizedPortals(t: TranslationSchema): Portal[] {
+  return PORTALS.map((portal) => {
+    const item = t.portals[portal.id];
+    if (!item) return portal;
+    return {
+      ...portal,
+      eyebrow: item.eyebrow,
+      title: item.title,
+      description: item.description,
+    };
+  });
+}
+
+export function getLocalizedTabs(t: TranslationSchema): { id: PortalTabId; label: string }[] {
+  return [
+    { id: "all", label: t.tabs.all },
+    { id: "common", label: t.tabs.common },
+    { id: "infrastructure", label: t.tabs.infrastructure },
+    { id: "agents", label: t.tabs.agents },
+    { id: "tools", label: t.tabs.tools },
+    { id: "projects", label: t.tabs.projects },
+    { id: "recent", label: t.tabs.recent },
+  ];
+}
+
+export function getLocalizedStatusLabels(t: TranslationSchema): Record<PortalStatus, string> {
+  return {
+    stable: t.status.stable,
+    beta: t.status.beta,
+    experimental: t.status.experimental,
+  };
+}
+
+export function getLocalizedCategoryLabels(t: TranslationSchema): Record<PortalCategory, string> {
+  return {
+    common: t.tabs.common,
+    infrastructure: t.tabs.infrastructure,
+    agents: t.tabs.agents,
+    tools: t.tabs.tools,
+    projects: t.tabs.projects,
+  };
+}

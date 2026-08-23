@@ -1,0 +1,173 @@
+import type { TranslationSchema } from "./types";
+
+export const ko: TranslationSchema = {
+  brand: {
+    title: "환의 연구소",
+    sub: "WANGHUAN LAB",
+  },
+  topbar: {
+    liteOn: "LITE",
+    liteOff: "LITE",
+    liteTitleOn: "저전력 모드 활성화됨 (클릭하여 끄기)",
+    liteTitleOff: "저전력 모드 켜기 (배경 애니메이션 감소)",
+    probing: "PROBING…",
+    checking: "CHECKING…",
+    online: "ONLINE",
+    httpCount: "HTTP",
+    refreshTitle: "온라인 상태 다시 탐지",
+    searchTitle: "포털 검색 (⌘K / Ctrl+K)",
+    about: "ABOUT",
+    updates: "UPDATES",
+    nowPlaying: "NOW PLAYING",
+  },
+  hero: {
+    kickerExplore: "EXPLORE",
+    kickerSub: "DIGITAL FRONTIER",
+    titleLine1: "새로운 생각들이",
+    titleLine2: "여기서 실현됩니다.",
+    subtitle: "환의 연구소에 오신 것을 환영합니다. 직접 구축한 디지털 제품, AI 에이전트, 그리고 진화 중인 실험실 프로젝트를 모아두었습니다.",
+    coreBadge: "LAB CORE",
+  },
+  tabs: {
+    all: "전체",
+    common: "자주 쓰는 포털",
+    infrastructure: "인프라",
+    agents: "AI 에이전트",
+    tools: "도구 및 서비스",
+    projects: "프로젝트 및 작품",
+    recent: "최근",
+    scrollHint: "SCROLL FOR MORE ↓",
+  },
+  portalCard: {
+    pin: "고정",
+    unpin: "고정 해제",
+  },
+  status: {
+    stable: "안정",
+    beta: "BETA",
+    experimental: "실험",
+  },
+  portals: {
+    "01": {
+      eyebrow: "INFRA / SERVER",
+      title: "서버 관리 플랫폼",
+      description: "서버, 애플리케이션 및 인프라 통합 관리 포털.",
+    },
+    "02": {
+      eyebrow: "AGENT / ZENTAO",
+      title: "젠타오 입력 AI 에이전트",
+      description: "ZenTao 워크플로와 연결된 지능형 입력 및 협업 보조 에이전트.",
+    },
+    "03": {
+      eyebrow: "KNOWLEDGE / RAG",
+      title: "RAG 지식 플랫폼",
+      description: "검색 증강 생성(RAG) 및 비공개 지식베이스 실험 플랫폼.",
+    },
+    "04": {
+      eyebrow: "MIDDLEWARE / MQ",
+      title: "RocketMQ 콘솔",
+      description: "메시지 큐 및 분산 이벤트 스트림 관리 포털.",
+    },
+    "05": {
+      eyebrow: "AGENT / OPENCLAW",
+      title: "OpenClaw 에이전트",
+      description: "OpenClaw 자율 에이전트의 작업 및 상호작용 공간.",
+    },
+    "06": {
+      eyebrow: "VISION / USP",
+      title: "AI 비전 규격 통합 제어",
+      description: "AI 비전 규격의 생성, 교정 및 통제를 원스톱으로 관리.",
+    },
+    "07": {
+      eyebrow: "DATABASE / MONGODB",
+      title: "MongoDB 매니저",
+      description: "MongoDB 데이터베이스 관리 및 운영 포털.",
+    },
+    "08": {
+      eyebrow: "UTILITY / TRANSFER",
+      title: "파일 전송 및 OSS 서비스",
+      description: "가볍고 안전한 임시 파일 업로드, 공유 및 전송 포털.",
+    },
+    "09": {
+      eyebrow: "ENERGY / PROTOTYPE",
+      title: "장강전력 차세대 생산경영 관리시스템",
+      description: "대형 에너지 기업을 위한 차세대 디지털 생산경영 관리 경험.",
+    },
+    "10": {
+      eyebrow: "INVEST / LAB",
+      title: "Invest Lab",
+      description: "투자 연구, 자산 모니터링 및 시장 통찰을 위한 개인 실험 공간.",
+    },
+    "11": {
+      eyebrow: "AI / VIBE CODING",
+      title: "VibeCoding 실전 트레이닝",
+      description: "AI 보조 코딩부터 지능형 개발 워크플로까지의 실전 학습 공간.",
+    },
+  },
+  search: {
+    placeholder: "제목, 설명, 도메인 또는 카테고리 검색…",
+    hintEmpty: "키워드를 입력하여 모든 포털을 검색하세요.",
+    hintNoResult: "일치하는 포털이 없습니다.",
+    kbdSelect: "↑↓ 선택",
+    kbdOpen: "↵ 열기",
+    kbdClose: "esc 닫기",
+    dialogTitle: "연구소 포털 검색",
+  },
+  about: {
+    title: "연구소 소개",
+    eyebrow: "ABOUT / WANGHUAN LAB",
+    p1: "환의 연구소(Wanghuan Lab)는 자체 서버 도구, AI 에이전트, 지식베이스 및 아이디어 프로토타입을 실증하고 구현하는 개인 디지털 연구소입니다.",
+    p2: "페이지의 모든 포털은 실제로 사용 중인 서비스입니다. 인프라, AI 에이전트, 도구, 작품이 카테고리별로 정렬되어 있으며, HTTPS 상태가 실시간으로 탐지됩니다.",
+    factOnline: "온라인 포털",
+    factStable: "안정적 서비스",
+    factGrowing: "지속적 성장 중",
+    contact: "피드백 및 문의: 해당 제품 포털에 메시지를 남기시거나 UPDATES 패널에서 최신 소식을 확인해 주세요.",
+  },
+  updates: {
+    title: "업데이트 기록",
+    eyebrow: "UPDATES / CHANGELOG",
+    changelog: [
+      {
+        date: "2026-08-23",
+        tag: "v0.3",
+        title: "내비게이션 기능 강화",
+        items: [
+          "Cmd+K 단축키를 통한 전체 포털 빠른 검색",
+          "실시간 HTTPS 상태 탐지 및 HTTP 표시 태그",
+          "수동 상단 고정 및 고정 순서 유지",
+          "Lite 저전력 모드 (수동 전환 지원)",
+          "상태 태그 우상단 정렬",
+          "WebGL 미지원 환경을 위한 배경 폴백",
+          "연구소 소개 및 업데이트 기록 모달 패널",
+        ],
+      },
+      {
+        date: "2026-08-05",
+        tag: "v0.2.1",
+        title: "필터링 및 레이아웃 최적화",
+        items: ["카테고리 필터링 및 스크롤 힌트", "첫 화면 레이아웃 및 초와이드 스크린 최적화"],
+      },
+      {
+        date: "2026-07-16",
+        tag: "v0.2",
+        title: "시각 및 청각 경험 향상",
+        items: [
+          "Lightfall 빛의 비 배경 연출",
+          "MagicBento 카드 스포트라이트, 입자 및 파문",
+          "호버 합성 음향 피드백 및 넷이즈 뮤직 캡슐",
+        ],
+      },
+      {
+        date: "2026-07-10",
+        tag: "v0.1",
+        title: "연구소 정식 오픈",
+        items: ["11개 포털 내비게이션 오픈", "바이두 통계 연동"],
+      },
+    ],
+  },
+  footer: {
+    copyright: "© 2026 WANGHUAN LAB",
+    icp: "蘇ICP備2026043670号",
+    location: "SUZHOU · CN",
+  },
+};

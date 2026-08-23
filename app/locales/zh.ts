@@ -1,0 +1,173 @@
+import type { TranslationSchema } from "./types";
+
+export const zh: TranslationSchema = {
+  brand: {
+    title: "欢的实验室",
+    sub: "WANGHUAN LAB",
+  },
+  topbar: {
+    liteOn: "LITE",
+    liteOff: "LITE",
+    liteTitleOn: "低功耗模式已开启，点击关闭",
+    liteTitleOff: "开启低功耗模式（减少背景动效）",
+    probing: "PROBING…",
+    checking: "CHECKING…",
+    online: "ONLINE",
+    httpCount: "HTTP",
+    refreshTitle: "点击重新探测在线状态",
+    searchTitle: "搜索入口（⌘K / Ctrl+K）",
+    about: "ABOUT",
+    updates: "UPDATES",
+    nowPlaying: "NOW PLAYING",
+  },
+  hero: {
+    kickerExplore: "EXPLORE",
+    kickerSub: "DIGITAL FRONTIER",
+    titleLine1: "一些想法，",
+    titleLine2: "正在这里发生。",
+    subtitle: "欢迎来到欢的实验室。这里收集我构建的数字产品、智能体与仍在生长中的实验。",
+    coreBadge: "LAB CORE",
+  },
+  tabs: {
+    all: "全部",
+    common: "常用入口",
+    infrastructure: "基础设施",
+    agents: "智能体",
+    tools: "工具服务",
+    projects: "项目作品",
+    recent: "最近",
+    scrollHint: "SCROLL FOR MORE ↓",
+  },
+  portalCard: {
+    pin: "置顶",
+    unpin: "取消置顶",
+  },
+  status: {
+    stable: "稳定",
+    beta: "BETA",
+    experimental: "实验",
+  },
+  portals: {
+    "01": {
+      eyebrow: "INFRA / SERVER",
+      title: "服务器管理平台",
+      description: "服务器、应用与基础设施的统一管理入口。",
+    },
+    "02": {
+      eyebrow: "AGENT / ZENTAO",
+      title: "禅道填报智能体",
+      description: "连接禅道工作流的智能填报与协作助手。",
+    },
+    "03": {
+      eyebrow: "KNOWLEDGE / RAG",
+      title: "RAG",
+      description: "检索增强生成与私有知识库实验平台。",
+    },
+    "04": {
+      eyebrow: "MIDDLEWARE / MQ",
+      title: "RocketMQ",
+      description: "消息队列与分布式事件链路管理入口。",
+    },
+    "05": {
+      eyebrow: "AGENT / OPENCLAW",
+      title: "龙虾智能体",
+      description: "OpenClaw 智能体的工作与交互空间。",
+    },
+    "06": {
+      eyebrow: "VISION / USP",
+      title: "AI 视觉规范统一驾驭",
+      description: "统一生成、校准与驾驭 AI 视觉规范。",
+    },
+    "07": {
+      eyebrow: "DATABASE / MONGODB",
+      title: "MongoDB",
+      description: "MongoDB 数据库管理与运维入口。",
+    },
+    "08": {
+      eyebrow: "UTILITY / TRANSFER",
+      title: "文件中转服务",
+      description: "轻量、安全的临时文件上传、分享与中转入口。",
+    },
+    "09": {
+      eyebrow: "ENERGY / PROTOTYPE",
+      title: "长江电力 新一代生产经营管理系统",
+      description: "面向大型能源企业的新一代数字化生产经营管理体验。",
+    },
+    "10": {
+      eyebrow: "INVEST / LAB",
+      title: "Invest Lab",
+      description: "投资研究、资产观察与机会洞察的个人实验空间。",
+    },
+    "11": {
+      eyebrow: "AI / VIBE CODING",
+      title: "VibeCoding 实战培训",
+      description: "从 AI 辅助编码到智能开发工作流的实战学习空间。",
+    },
+  },
+  search: {
+    placeholder: "搜索标题、描述、域名或分类…",
+    hintEmpty: "输入关键词开始搜索全部入口。",
+    hintNoResult: "没有匹配的入口。",
+    kbdSelect: "↑↓ 选择",
+    kbdOpen: "↵ 打开",
+    kbdClose: "esc 关闭",
+    dialogTitle: "搜索实验室入口",
+  },
+  about: {
+    title: "关于实验室",
+    eyebrow: "ABOUT / WANGHUAN LAB",
+    p1: "欢的实验室（Wanghuan Lab）是一个个人数字实验室：这里跑着我自建的服务器工具、智能体、知识库与产品原型，也是我持续折腾、验证想法的地方。",
+    p2: "页面上的每个入口都是我在真实使用的服务——基础设施、AI 智能体、工具与作品按分类陈列；HTTPS 入口的状态实时探测，HTTP 入口会明确标注。",
+    factOnline: "在线入口",
+    factStable: "稳定服务",
+    factGrowing: "持续生长中",
+    contact: "反馈与交流：欢迎在对应的产品入口中留言，或通过 UPDATES 面板了解最新进展。",
+  },
+  updates: {
+    title: "更新记录",
+    eyebrow: "UPDATES / CHANGELOG",
+    changelog: [
+      {
+        date: "2026-08-23",
+        tag: "v0.3",
+        title: "导航站功能增强",
+        items: [
+          "Cmd+K 快速搜索全部入口",
+          "入口在线状态实时探测与 HTTP 标记",
+          "手动置顶优先展示（其余保持固定顺序）",
+          "Lite 低功耗模式（默认关闭，可手动开启）",
+          "状态标签固定右上角对齐",
+          "WebGL 不可用时背景优雅降级",
+          "关于实验室与更新记录面板",
+        ],
+      },
+      {
+        date: "2026-08-05",
+        tag: "v0.2.1",
+        title: "导航筛选与首屏布局",
+        items: ["分类筛选与滚动提示", "首屏布局与超宽屏适配优化"],
+      },
+      {
+        date: "2026-07-16",
+        tag: "v0.2",
+        title: "动效与听觉体验",
+        items: [
+          "Lightfall 光雨背景",
+          "MagicBento 卡片光晕、粒子与涟漪",
+          "悬停合成音效与网易云音乐胶囊",
+        ],
+      },
+      {
+        date: "2026-07-10",
+        tag: "v0.1",
+        title: "实验室上线",
+        items: ["11 个入口导航上线", "百度统计接入"],
+      },
+    ],
+  },
+  footer: {
+    copyright: "© 2026 WANGHUAN LAB",
+    icp: "苏ICP备2026043670号",
+    location: "SUZHOU · CN",
+  },
+};

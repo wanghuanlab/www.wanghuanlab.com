@@ -2,7 +2,8 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Portal } from "../data/portals";
-import { CATEGORY_LABELS } from "../data/portals";
+import { getLocalizedCategoryLabels } from "../data/portals";
+import { useTranslation } from "../lib/i18n";
 import { PortalIcon } from "./icons";
 
 type SearchOverlayProps = {
@@ -16,21 +17,24 @@ const MAX_RESULTS = 12;
 
 /** Cmd+K / Ctrl+K 快速搜索浮层，纯本地过滤，无依赖。 */
 export function SearchOverlay({ open, onClose, portals, recentIds }: SearchOverlayProps) {
+  const { t } = useTranslation();
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
+  const categoryLabels = useMemo(() => getLocalizedCategoryLabels(t), [t]);
+
   const results = useMemo(() => {
     const term = query.trim().toLowerCase();
     if (!term) return portals;
     return portals.filter((portal) => {
-      const haystack = [portal.title, portal.description, portal.domain, portal.eyebrow, ...portal.categories.map((c) => CATEGORY_LABELS[c])]
+      const haystack = [portal.title, portal.description, portal.domain, portal.eyebrow, ...portal.categories.map((c) => categoryLabels[c])]
         .join(" ")
         .toLowerCase();
       return term.split(/\s+/).every((part) => haystack.includes(part));
     }).slice(0, MAX_RESULTS);
-  }, [query, portals]);
+  }, [query, portals, categoryLabels]);
 
   useEffect(() => {
     if (!open) return;
@@ -66,26 +70,26 @@ export function SearchOverlay({ open, onClose, portals, recentIds }: SearchOverl
 
   return (
     <div className="search-layer" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
-      <div className="search-panel" role="dialog" aria-modal="true" aria-label="搜索入口">
+      <div className="search-panel" role="dialog" aria-modal="true" aria-label={t.search.dialogTitle}>
         <div className="search-input-row">
           <span className="search-glyph" aria-hidden="true">⌕</span>
           <input
             ref={inputRef}
             className="search-input"
             type="text"
-            placeholder="搜索标题、描述、域名或分类…"
+            placeholder={t.search.placeholder}
             value={query}
             onChange={(event) => {
               setQuery(event.target.value);
               setActiveIndex(0);
             }}
-            aria-label="搜索实验室入口"
+            aria-label={t.search.dialogTitle}
           />
           <kbd className="search-kbd">ESC</kbd>
         </div>
         <div className="search-results" ref={listRef}>
-          {showRecents && <p className="search-hint">输入关键词开始搜索全部入口。</p>}
-          {!showRecents && results.length === 0 && <p className="search-hint">没有匹配的入口。</p>}
+          {showRecents && <p className="search-hint">{t.search.hintEmpty}</p>}
+          {!showRecents && results.length === 0 && <p className="search-hint">{t.search.hintNoResult}</p>}
           {results.map((portal, index) => (
             <a
               key={portal.id}
@@ -103,15 +107,15 @@ export function SearchOverlay({ open, onClose, portals, recentIds }: SearchOverl
                 <strong>{portal.title}</strong>
                 <small>{portal.domain}</small>
               </span>
-              <span className="search-result-category">{CATEGORY_LABELS[portal.categories[0]]}</span>
+              <span className="search-result-category">{categoryLabels[portal.categories[0]]}</span>
               <span className="search-result-arrow" aria-hidden="true">↗</span>
             </a>
           ))}
         </div>
         <footer className="search-foot">
-          <span>↑↓ 选择</span>
-          <span>↵ 打开</span>
-          <span>esc 关闭</span>
+          <span>{t.search.kbdSelect}</span>
+          <span>{t.search.kbdOpen}</span>
+          <span>{t.search.kbdClose}</span>
         </footer>
       </div>
     </div>

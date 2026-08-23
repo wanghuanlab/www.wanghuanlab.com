@@ -1,12 +1,19 @@
 "use client";
 
 import { Suspense, lazy, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { LanguageSelector } from "./components/LanguageSelector";
 import { MagicBentoCard, MagicBentoGrid } from "./components/MagicBento";
 import { Modal } from "./components/Modal";
 import { SearchOverlay } from "./components/SearchOverlay";
 import { PortalIcon } from "./components/icons";
-import { PORTALS, PORTAL_TABS, STATUS_LABELS } from "./data/portals";
+import {
+  PORTALS,
+  getLocalizedPortals,
+  getLocalizedStatusLabels,
+  getLocalizedTabs,
+} from "./data/portals";
 import type { Portal, PortalCategory, PortalTabId } from "./data/portals";
+import { useTranslation } from "./lib/i18n";
 import { RECENT_LIMIT, useLiteMode, usePortalStatus, useRecentPortals } from "./lib/hooks";
 
 const LIGHTFALL_COLORS = ["#39F3FF", "#6B62FF", "#B85CFF"];
@@ -126,41 +133,11 @@ function DeferredLightfall({ lite }: { lite: boolean }) {
 }
 
 /* ------------------------------------------------------------------ */
-/* 更新记录                                                             */
-/* ------------------------------------------------------------------ */
-
-const CHANGELOG: { date: string; tag: string; title: string; items: string[] }[] = [
-  {
-    date: "2026-08-23",
-    tag: "v0.3",
-    title: "导航站功能增强",
-    items: ["Cmd+K 快速搜索全部入口", "入口在线状态实时探测与 HTTP 标记", "手动置顶优先展示（其余保持固定顺序）", "Lite 低功耗模式（默认关闭，可手动开启）", "状态标签固定右上角对齐", "WebGL 不可用时背景优雅降级", "关于实验室与更新记录面板"],
-  },
-  {
-    date: "2026-08-05",
-    tag: "v0.2.1",
-    title: "导航筛选与首屏布局",
-    items: ["分类筛选与滚动提示", "首屏布局与超宽屏适配优化"],
-  },
-  {
-    date: "2026-07-16",
-    tag: "v0.2",
-    title: "动效与听觉体验",
-    items: ["Lightfall 光雨背景", "MagicBento 卡片光晕、粒子与涟漪", "悬停合成音效与网易云音乐胶囊"],
-  },
-  {
-    date: "2026-07-10",
-    tag: "v0.1",
-    title: "实验室上线",
-    items: ["11 个入口导航上线", "百度统计接入"],
-  },
-];
-
-/* ------------------------------------------------------------------ */
 /* 首页                                                                 */
 /* ------------------------------------------------------------------ */
 
 export default function Home() {
+  const { t } = useTranslation();
   const [musicOpen, setMusicOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState<PortalTabId>("all");
   const [showScrollHint, setShowScrollHint] = useState(false);
@@ -169,6 +146,10 @@ export default function Home() {
   const [updatesOpen, setUpdatesOpen] = useState(false);
   const hoverAudioRef = useRef<AudioContext | null>(null);
   const prevRectsRef = useRef<Map<string, DOMRect>>(new Map());
+
+  const localizedPortals = useMemo(() => getLocalizedPortals(t), [t]);
+  const portalTabs = useMemo(() => getLocalizedTabs(t), [t]);
+  const statusLabels = useMemo(() => getLocalizedStatusLabels(t), [t]);
 
   const { lite, setMode } = useLiteMode();
   const { states, probing, onlineCount, probedCount, httpCount, refresh } = usePortalStatus(PORTALS);
@@ -180,20 +161,20 @@ export default function Home() {
   const visiblePortals = useMemo(() => {
     if (activeCategory === "recent") {
       return recentIds
-        .map((id) => PORTALS.find((portal) => portal.id === id))
+        .map((id) => localizedPortals.find((portal) => portal.id === id))
         .filter((portal): portal is Portal => Boolean(portal));
     }
     const base =
       activeCategory === "all"
-        ? PORTALS
-        : PORTALS.filter((portal) => portal.categories.includes(activeCategory as PortalCategory));
+        ? localizedPortals
+        : localizedPortals.filter((portal) => portal.categories.includes(activeCategory as PortalCategory));
     if (activeCategory !== "all") return base;
     const pinned = base
       .filter((portal) => pinnedSet.has(portal.id))
       .sort((a, b) => pins.indexOf(a.id) - pins.indexOf(b.id));
     const others = base.filter((portal) => !pinnedSet.has(portal.id));
     return [...pinned, ...others];
-  }, [activeCategory, pins, pinnedSet, recentIds]);
+  }, [activeCategory, pins, pinnedSet, recentIds, localizedPortals]);
 
   /* 全局开关：Cmd+K / Ctrl+K 搜索 */
   useEffect(() => {
@@ -336,10 +317,10 @@ export default function Home() {
     tabId === "all" ? PORTALS.length : tabId === "recent" ? Math.min(recentIds.length, RECENT_LIMIT) : PORTALS.filter((portal) => portal.categories.includes(tabId as PortalCategory)).length;
 
   const statusText = probing
-    ? "PROBING…"
+    ? t.topbar.probing
     : probedCount === 0
-      ? "CHECKING…"
-      : `${onlineCount}/${probedCount} ONLINE`;
+      ? t.topbar.checking
+      : `${onlineCount}/${probedCount} ${t.topbar.online}`;
 
   return (
     <main className="laboratory">
@@ -351,9 +332,9 @@ export default function Home() {
       <div className="ambient ambient--two" aria-hidden="true" />
       <header className="topbar">
         <div className="topbar-inner">
-          <a className="brand" href="#top" aria-label="欢的实验室首页">
+          <a className="brand" href="#top" aria-label={t.brand.title}>
             <span className="brand-mark"><i /></span>
-            <span><b>欢的实验室</b><small>WANGHUAN LAB</small></span>
+            <span><b>{t.brand.title}</b><small>{t.brand.sub}</small></span>
           </a>
           <div className="topbar-meta">
             <button
@@ -361,19 +342,20 @@ export default function Home() {
               type="button"
               onClick={() => setMode(lite ? "off" : "on")}
               aria-pressed={lite}
-              title={lite ? "低功耗模式已开启，点击关闭" : "开启低功耗模式（减少背景动效）"}
+              title={lite ? t.topbar.liteTitleOn : t.topbar.liteTitleOff}
             >
-              <i className={`lite-dot ${lite ? "is-on" : ""}`} aria-hidden="true" />LITE
+              <i className={`lite-dot ${lite ? "is-on" : ""}`} aria-hidden="true" />
+              {lite ? t.topbar.liteOn : t.topbar.liteOff}
             </button>
             <button
               className="topbar-btn status"
               type="button"
               onClick={() => refresh()}
-              title="点击重新探测在线状态"
+              title={t.topbar.refreshTitle}
             >
               <i className={`status-dot ${probing ? "is-probing" : ""}`} aria-hidden="true" />
               {statusText}
-              {httpCount > 0 ? <span className="status-http"> · {httpCount} HTTP</span> : null}
+              {httpCount > 0 ? <span className="status-http"> · {httpCount} {t.topbar.httpCount}</span> : null}
             </button>
             <button
               className="topbar-btn search-toggle"
@@ -381,7 +363,7 @@ export default function Home() {
               onClick={() => setSearchOpen(true)}
               aria-haspopup="dialog"
               aria-expanded={searchOpen}
-              title="搜索入口（⌘K / Ctrl+K）"
+              title={t.topbar.searchTitle}
             >
               ⌘K
             </button>
@@ -392,7 +374,7 @@ export default function Home() {
               aria-haspopup="dialog"
               aria-expanded={aboutOpen}
             >
-              ABOUT
+              {t.topbar.about}
             </button>
             <button
               className="topbar-btn"
@@ -401,12 +383,13 @@ export default function Home() {
               aria-haspopup="dialog"
               aria-expanded={updatesOpen}
             >
-              UPDATES
+              {t.topbar.updates}
             </button>
+            <LanguageSelector />
             <div className={`music-shell ${musicOpen ? "is-open" : ""}`}>
               <button className="music-capsule" type="button" onClick={() => setMusicOpen((open) => !open)} aria-expanded={musicOpen} aria-controls="netease-player">
                 <span className="music-bars" aria-hidden="true"><i /><i /><i /><i /></span>
-                <span><small>NOW PLAYING</small><b>PLAY · K-391</b></span>
+                <span><small>{t.topbar.nowPlaying}</small><b>PLAY · K-391</b></span>
                 <span className="music-toggle" aria-hidden="true">{musicOpen ? "×" : "+"}</span>
               </button>
               <div className="music-panel" id="netease-player" aria-hidden={!musicOpen}>
@@ -427,9 +410,9 @@ export default function Home() {
 
       <section className="hero" id="top">
         <div className="intro">
-          <p className="kicker"><span>EXPLORE</span> / DIGITAL FRONTIER</p>
-          <h1>一些想法，<br /><em>正在这里发生。</em></h1>
-          <p className="lead">欢迎来到欢的实验室。这里收集我构建的数字产品、智能体与仍在生长中的实验。</p>
+          <p className="kicker"><span>{t.hero.kickerExplore}</span> / {t.hero.kickerSub}</p>
+          <h1>{t.hero.titleLine1}<br /><em>{t.hero.titleLine2}</em></h1>
+          <p className="lead">{t.hero.subtitle}</p>
         </div>
 
         <div className="orbital-system" aria-hidden="true">
@@ -439,7 +422,7 @@ export default function Home() {
           <div className="core-halo" />
           <div className="core">
             <span>WH</span>
-            <small>LAB CORE</small>
+            <small>{t.hero.coreBadge}</small>
           </div>
           <span className="coordinate coordinate--one">31.2304° N</span>
           <span className="coordinate coordinate--two">121.4737° E</span>
@@ -447,7 +430,7 @@ export default function Home() {
 
         <div className="navigation-stack">
           <div className="portal-tabs" aria-label="实验室导航分类">
-            {PORTAL_TABS.map((tab) => (
+            {portalTabs.map((tab) => (
               <button
                 key={tab.id}
                 id={`portal-tab-${tab.id}`}
@@ -461,7 +444,7 @@ export default function Home() {
                 <span>{tabCount(tab.id).toString().padStart(2, "0")}</span>
               </button>
             ))}
-            {showScrollHint && <span className="portal-scroll-hint" aria-live="polite">SCROLL FOR MORE <b>↓</b></span>}
+            {showScrollHint && <span className="portal-scroll-hint" aria-live="polite">{t.tabs.scrollHint}</span>}
           </div>
           <MagicBentoGrid
             id="portal-navigation"
@@ -507,14 +490,14 @@ export default function Home() {
                       {portal.domain}
                     </span>
                   </span>
-                  <span className={`portal-status is-${portal.status}`}>{STATUS_LABELS[portal.status]}</span>
+                  <span className={`portal-status is-${portal.status}`}>{statusLabels[portal.status]}</span>
                   <span className="portal-arrow" aria-hidden="true">↗</span>
                 </MagicBentoCard>
                 <button
                   className={`portal-pin ${pinnedSet.has(portal.id) ? "is-pinned" : ""}`}
                   type="button"
                   aria-pressed={pinnedSet.has(portal.id)}
-                  aria-label={`${pinnedSet.has(portal.id) ? "取消置顶" : "置顶"}：${portal.title}`}
+                  aria-label={`${pinnedSet.has(portal.id) ? t.portalCard.unpin : t.portalCard.pin}：${portal.title}`}
                   onClick={() => togglePin(portal.id)}
                 >
                   ★
@@ -526,29 +509,27 @@ export default function Home() {
       </section>
 
       <footer>
-        <span>© 2026 WANGHUAN LAB</span>
-        <a className="icp" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">苏ICP备2026043670号</a>
-        <span className="location">SUZHOU · CN</span>
+        <span>{t.footer.copyright}</span>
+        <a className="icp" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">{t.footer.icp}</a>
+        <span className="location">{t.footer.location}</span>
       </footer>
 
-      <SearchOverlay key={searchOpen ? "open" : "closed"} open={searchOpen} onClose={() => setSearchOpen(false)} portals={PORTALS} recentIds={recentIds} />
+      <SearchOverlay key={searchOpen ? "open" : "closed"} open={searchOpen} onClose={() => setSearchOpen(false)} portals={localizedPortals} recentIds={recentIds} />
 
-      <Modal open={aboutOpen} onClose={() => setAboutOpen(false)} title="关于实验室" eyebrow="ABOUT / WANGHUAN LAB">
-        <p>欢的实验室（Wanghuan Lab）是一个个人数字实验室：这里跑着我自建的服务器工具、智能体、知识库与产品原型，也是我持续折腾、验证想法的地方。</p>
-        <p>页面上的每个入口都是我在真实使用的服务——基础设施、AI 智能体、工具与作品按分类陈列；HTTPS 入口的状态实时探测，HTTP 入口会明确标注。</p>
+      <Modal open={aboutOpen} onClose={() => setAboutOpen(false)} title={t.about.title} eyebrow={t.about.eyebrow}>
+        <p>{t.about.p1}</p>
+        <p>{t.about.p2}</p>
         <div className="about-facts">
-          <div><b>{PORTALS.length}</b><small>在线入口</small></div>
-          <div><b>{PORTALS.filter((portal) => portal.status === "stable").length}</b><small>稳定服务</small></div>
-          <div><b>∞</b><small>持续生长中</small></div>
+          <div><b>{PORTALS.length}</b><small>{t.about.factOnline}</small></div>
+          <div><b>{PORTALS.filter((portal) => portal.status === "stable").length}</b><small>{t.about.factStable}</small></div>
+          <div><b>∞</b><small>{t.about.factGrowing}</small></div>
         </div>
-        <p className="about-contact">反馈与交流：欢迎在对应的产品入口中留言，或通过 UPDATES 面板了解最新进展。</p>
-        {/* 个人联系方式（GitHub / 邮箱等）可在此补充，例如：
-            <a className="about-link" href="https://github.com/yourname" target="_blank" rel="noreferrer">GitHub</a> */}
+        <p className="about-contact">{t.about.contact}</p>
       </Modal>
 
-      <Modal open={updatesOpen} onClose={() => setUpdatesOpen(false)} title="更新记录" eyebrow="UPDATES / CHANGELOG">
+      <Modal open={updatesOpen} onClose={() => setUpdatesOpen(false)} title={t.updates.title} eyebrow={t.updates.eyebrow}>
         <ol className="changelog">
-          {CHANGELOG.map((entry) => (
+          {t.updates.changelog.map((entry) => (
             <li key={entry.tag}>
               <span className="changelog-meta">
                 <time>{entry.date}</time>

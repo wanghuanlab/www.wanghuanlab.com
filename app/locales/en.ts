@@ -1,0 +1,173 @@
+import type { TranslationSchema } from "./types";
+
+export const en: TranslationSchema = {
+  brand: {
+    title: "Wanghuan Lab",
+    sub: "WANGHUAN LAB",
+  },
+  topbar: {
+    liteOn: "LITE",
+    liteOff: "LITE",
+    liteTitleOn: "Low power mode enabled, click to turn off",
+    liteTitleOff: "Enable low power mode (reduce background animations)",
+    probing: "PROBING…",
+    checking: "CHECKING…",
+    online: "ONLINE",
+    httpCount: "HTTP",
+    refreshTitle: "Click to re-probe status",
+    searchTitle: "Search portals (⌘K / Ctrl+K)",
+    about: "ABOUT",
+    updates: "UPDATES",
+    nowPlaying: "NOW PLAYING",
+  },
+  hero: {
+    kickerExplore: "EXPLORE",
+    kickerSub: "DIGITAL FRONTIER",
+    titleLine1: "Where Ideas",
+    titleLine2: "Come to Life.",
+    subtitle: "Welcome to Wanghuan Lab. A collection of digital products, AI agents, and evolving experiments.",
+    coreBadge: "LAB CORE",
+  },
+  tabs: {
+    all: "All",
+    common: "Common",
+    infrastructure: "Infrastructure",
+    agents: "AI Agents",
+    tools: "Tools & Utilities",
+    projects: "Projects & Showcase",
+    recent: "Recent",
+    scrollHint: "SCROLL FOR MORE ↓",
+  },
+  portalCard: {
+    pin: "Pin",
+    unpin: "Unpin",
+  },
+  status: {
+    stable: "STABLE",
+    beta: "BETA",
+    experimental: "EXP",
+  },
+  portals: {
+    "01": {
+      eyebrow: "INFRA / SERVER",
+      title: "Server Management Hub",
+      description: "Unified entry for servers, applications, and infrastructure management.",
+    },
+    "02": {
+      eyebrow: "AGENT / ZENTAO",
+      title: "ZenTao Assistant Agent",
+      description: "Intelligent reporting and collaboration agent connected to ZenTao workflow.",
+    },
+    "03": {
+      eyebrow: "KNOWLEDGE / RAG",
+      title: "RAG Knowledge Platform",
+      description: "Retrieval-Augmented Generation & private knowledge base experiment platform.",
+    },
+    "04": {
+      eyebrow: "MIDDLEWARE / MQ",
+      title: "RocketMQ Console",
+      description: "Message queue and distributed event stream management portal.",
+    },
+    "05": {
+      eyebrow: "AGENT / OPENCLAW",
+      title: "OpenClaw Agent",
+      description: "Workplace and interactive space for OpenClaw autonomous agents.",
+    },
+    "06": {
+      eyebrow: "VISION / USP",
+      title: "AI Vision Specification Suite",
+      description: "Unified generation, calibration, and governance of AI vision specifications.",
+    },
+    "07": {
+      eyebrow: "DATABASE / MONGODB",
+      title: "MongoDB Manager",
+      description: "MongoDB database administration and operation hub.",
+    },
+    "08": {
+      eyebrow: "UTILITY / TRANSFER",
+      title: "File Transfer & OSS",
+      description: "Lightweight and secure temporary file upload, sharing, and transfer service.",
+    },
+    "09": {
+      eyebrow: "ENERGY / PROTOTYPE",
+      title: "CYPC Production & Operations System",
+      description: "Next-gen digital production management experience for enterprise energy systems.",
+    },
+    "10": {
+      eyebrow: "INVEST / LAB",
+      title: "Invest Lab",
+      description: "Personal lab space for investment research, asset monitoring, and market insights.",
+    },
+    "11": {
+      eyebrow: "AI / VIBE CODING",
+      title: "VibeCoding Hands-on Training",
+      description: "Practical workspace for AI-assisted coding and intelligent dev workflows.",
+    },
+  },
+  search: {
+    placeholder: "Search title, description, domain, or category…",
+    hintEmpty: "Type keywords to search all portals.",
+    hintNoResult: "No matching portals found.",
+    kbdSelect: "↑↓ Select",
+    kbdOpen: "↵ Open",
+    kbdClose: "esc Close",
+    dialogTitle: "Search Lab Portals",
+  },
+  about: {
+    title: "About The Lab",
+    eyebrow: "ABOUT / WANGHUAN LAB",
+    p1: "Wanghuan Lab is a personal digital playground housing self-hosted server tools, AI agents, knowledge bases, and product prototypes—where ideas are tested and built.",
+    p2: "Every portal on this page represents an active service I use daily. Infrastructure, AI agents, tools, and projects are organized by category with real-time HTTPS status probing.",
+    factOnline: "Online Portals",
+    factStable: "Stable Services",
+    factGrowing: "Evolving Always",
+    contact: "Feedback & Contact: Feel free to leave notes in corresponding product portals or check UPDATES for recent progress.",
+  },
+  updates: {
+    title: "Updates & Changelog",
+    eyebrow: "UPDATES / CHANGELOG",
+    changelog: [
+      {
+        date: "2026-08-23",
+        tag: "v0.3",
+        title: "Navigation & Experience Enhancements",
+        items: [
+          "Cmd+K global portal search overlay",
+          "Real-time HTTPS status probing with HTTP badge tags",
+          "Pinning portals to top with persistent custom order",
+          "Lite low-power mode (manual toggle for performance)",
+          "Top-right alignment for portal status indicators",
+          "Graceful background fallback when WebGL is unavailable",
+          "About Lab and Updates modal panels",
+        ],
+      },
+      {
+        date: "2026-08-05",
+        tag: "v0.2.1",
+        title: "Filtering & Layout Optimization",
+        items: ["Category filtering with smooth scroll cues", "Hero layout & ultra-wide screen responsiveness"],
+      },
+      {
+        date: "2026-07-16",
+        tag: "v0.2",
+        title: "Visual & Audio Experience",
+        items: [
+          "Lightfall ambient particle background",
+          "MagicBento card spotlights, particles, and ripples",
+          "Hover synthesis audio feedback & Netease Music pill",
+        ],
+      },
+      {
+        date: "2026-07-10",
+        tag: "v0.1",
+        title: "Initial Lab Release",
+        items: ["Launch of 11 portal navigation links", "Baidu Analytics integration"],
+      },
+    ],
+  },
+  footer: {
+    copyright: "© 2026 WANGHUAN LAB",
+    icp: "ICP 2026043670",
+    location: "SUZHOU · CN",
+  },
+};
