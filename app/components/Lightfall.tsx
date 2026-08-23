@@ -207,8 +207,15 @@ export default function Lightfall({
     const container = containerRef.current;
     if (!container) return;
 
-    const renderer = new Renderer({ dpr: dpr ?? Math.min(window.devicePixelRatio || 1, 1.5), alpha: true, antialias: true });
+    // WebGL 不可用（无 GPU / 黑名单 / 被禁用）时静默降级，避免整页崩溃。
+    let renderer: Renderer;
+    try {
+      renderer = new Renderer({ dpr: dpr ?? Math.min(window.devicePixelRatio || 1, 1.5), alpha: true, antialias: true });
+    } catch {
+      return;
+    }
     const gl = renderer.gl;
+    if (!gl) return;
     const canvas = gl.canvas;
     canvas.style.width = "100%";
     canvas.style.height = "100%";

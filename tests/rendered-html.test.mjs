@@ -2,86 +2,51 @@ import assert from "node:assert/strict";
 import { access, readFile, readdir } from "node:fs/promises";
 import test from "node:test";
 
-const developmentPreviewMeta =
-  /<meta(?=[^>]*\bname=["']codex-preview["'])(?=[^>]*\bcontent=["']development["'])[^>]*>/i;
-const templateRoot = new URL("../", import.meta.url);
-const previewRoot = new URL("../app/_sites-preview/", import.meta.url);
+const releaseRoot = new URL("../release/", import.meta.url);
+const assetsRoot = new URL("../release/assets/", import.meta.url);
 
-async function render() {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
+test("release/index.html 包含站点元数据与构建产物引用", async () => {
+  const html = await readFile(new URL("index.html", releaseRoot), "utf8");
+  assert.match(html, /欢的实验室/);
+  assert.match(html, /<title>/);
+  assert.match(html, /canonical/);
+  assert.match(html, /https:\/\/wanghuanlab\.com\//);
+  assert.match(html, /og\.jpg/);
+  assert.match(html, /favicon\.svg/);
+  assert.doesNotMatch(html, /Your site is taking shape/);
+  assert.doesNotMatch(html, /og\.png/);
+  assert.doesNotMatch(html, /www\.wanghuanlab\.com/);
 
-  return worker.fetch(
-    new Request("http://localhost/", {
-      headers: { accept: "text/html" },
-    }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
-}
-
-test("server-renders the starter loading skeleton", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
-
-  const html = await response.text();
-  assert.match(html, developmentPreviewMeta);
-  assert.match(html, /<title>Your site is taking shape<\/title>/i);
-  assert.match(html, /Codex is working/);
-  assert.match(html, /Your site is taking shape/);
-  assert.match(html, /Codex is building the first version/);
-  assert.match(html, /react-loading-skeleton/);
-  assert.match(html, /role="status"/);
+  const assetRefs = [...html.matchAll(/(?:src|href)="(\/assets\/[^"]+)"/g)].map((match) => match[1]);
+  assert.ok(assetRefs.length >= 2, "应引用至少 2 个构建资源");
+  for (const ref of assetRefs) {
+    await access(new URL(`.${ref}`, releaseRoot));
+  }
 });
 
-test("keeps the loading skeleton scoped and disposable", async () => {
-  const [preview, css, page, layout, packageJson, files] = await Promise.all([
-    readFile(new URL("SkeletonPreview.tsx", previewRoot), "utf8"),
-    readFile(new URL("preview.css", previewRoot), "utf8"),
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
-    readFile(new URL("../package.json", import.meta.url), "utf8"),
-    readdir(previewRoot),
-  ]);
+test("release 包含 favicon / manifest / robots / sitemap 等静态资源", async () => {
+  const expected = [
+    "favicon.png",
+    "favicon.svg",
+    "apple-touch-icon.png",
+    "site.webmanifest",
+    "robots.txt",
+    "sitemap.xml",
+    "og.jpg",
+  ];
+  for (const name of expected) {
+    await access(new URL(name, releaseRoot));
+  }
+  const assets = await readdir(assetsRoot);
+  assert.ok(assets.length > 0, "assets 目录不应为空");
+});
 
-  assert.deepEqual(files.sort(), ["SkeletonPreview.tsx", "preview.css"]);
-  assert.match(preview, /from "react-loading-skeleton"/);
-  assert.match(preview, /baseColor="#eceae7"/);
-  assert.match(preview, /highlightColor="#f9f8f6"/);
-  assert.match(preview, /duration=\{2\.8\}/);
-  assert.match(preview, /sites-skeleton-search-placeholder/);
-  assert.match(packageJson, /"react-loading-skeleton": "3\.5\.0"/);
-
-  const shellIndex = preview.indexOf('className="sites-skeleton-shell"');
-  const statusIndex = preview.indexOf('className="sites-skeleton-status"');
-  assert.ok(shellIndex >= 0 && statusIndex > shellIndex);
-  assert.match(css, /position:\s*fixed/);
-  assert.match(css, /inset:\s*0/);
-  assert.match(css, /opacity:\s*0\.52/);
-  assert.match(css, /prefers-reduced-motion:\s*reduce/);
-  assert.doesNotMatch(css, /#020617|canvas|pets|progress/i);
-  assert.doesNotMatch(
-    preview,
-    /loading-spinner|status-mark|status-progress|canvas|cookie|random/i,
-  );
-
-  assert.match(page, /export const metadata:\s*Metadata/);
-  assert.match(page, /"codex-preview": "development"/);
-  assert.match(page, /<SkeletonPreview \/>/);
-  assert.match(layout, /title:\s*"Starter Project"/);
-  assert.doesNotMatch(layout, /codex-preview|_sites-preview|themeColor|\bViewport\b/);
-  assert.doesNotMatch(css, /(^|\s)(html|body)\s*\{/m);
-
-  await assert.rejects(
-    access(new URL("public/_sites-preview", templateRoot)),
-  );
+test("JS 产物包含关键入口文案与交互元素", async () => {
+  const assets = await readdir(assetsRoot);
+  const jsFile = assets.find((file) => file.startsWith("index-") && file.endsWith(".js"));
+  assert.ok(jsFile, "应存在主 JS 产物（index-*.js）");
+  const bundle = await readFile(new URL(jsFile, assetsRoot), "utf8");
+  for (const text of ["服务器管理平台", "VibeCoding", "长江电力", "⌘K", "更新记录", "关于实验室"]) {
+    assert.ok(bundle.includes(text), `JS 产物应包含：${text}`);
+  }
 });

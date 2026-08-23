@@ -7,7 +7,8 @@ import "./MagicBento.css";
 
 const DEFAULT_GLOW = "57, 243, 255";
 
-const motionDisabled = () => window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches;
+const motionDisabled = (disabled?: boolean) =>
+  disabled === true || window.matchMedia("(hover: none), (prefers-reduced-motion: reduce)").matches;
 
 const updateGlow = (card: HTMLElement, mouseX: number, mouseY: number, intensity: number, radius: number) => {
   const rectangle = card.getBoundingClientRect();
@@ -21,14 +22,16 @@ type MagicBentoGridProps = HTMLAttributes<HTMLElement> & {
   children: ReactNode;
   glowColor?: string;
   spotlightRadius?: number;
+  /** Lite 模式或无障碍偏好下禁用光晕/粒子等装饰动效。 */
+  motionDisabled?: boolean;
 };
 
-export function MagicBentoGrid({ children, className = "", glowColor = DEFAULT_GLOW, spotlightRadius = 280, ...props }: MagicBentoGridProps) {
+export function MagicBentoGrid({ children, className = "", glowColor = DEFAULT_GLOW, spotlightRadius = 280, motionDisabled: disabled = false, ...props }: MagicBentoGridProps) {
   const gridRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const grid = gridRef.current;
-    if (!grid || motionDisabled()) return;
+    if (!grid || motionDisabled(disabled)) return;
 
     const spotlight = document.createElement("div");
     spotlight.className = "magic-global-spotlight";
@@ -72,7 +75,7 @@ export function MagicBentoGrid({ children, className = "", glowColor = DEFAULT_G
       gsap.killTweensOf(spotlight);
       spotlight.remove();
     };
-  }, [glowColor, spotlightRadius]);
+  }, [glowColor, spotlightRadius, disabled]);
 
   return <nav ref={gridRef} className={`${className} magic-bento-grid`} {...props}>{children}</nav>;
 }
@@ -81,9 +84,11 @@ type MagicBentoCardProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   children: ReactNode;
   glowColor?: string;
   particleCount?: number;
+  /** Lite 模式或无障碍偏好下禁用 3D 倾斜、粒子与涟漪。 */
+  motionDisabled?: boolean;
 };
 
-export function MagicBentoCard({ children, className = "", glowColor = DEFAULT_GLOW, particleCount = 7, ...props }: MagicBentoCardProps) {
+export function MagicBentoCard({ children, className = "", glowColor = DEFAULT_GLOW, particleCount = 7, motionDisabled: disabled = false, ...props }: MagicBentoCardProps) {
   const cardRef = useRef<HTMLAnchorElement>(null);
   const particlesRef = useRef<HTMLElement[]>([]);
   const timersRef = useRef<number[]>([]);
@@ -101,9 +106,10 @@ export function MagicBentoCard({ children, className = "", glowColor = DEFAULT_G
 
   useEffect(() => {
     const card = cardRef.current;
-    if (!card || motionDisabled()) return;
+    if (!card || motionDisabled(disabled)) return;
 
     const createParticles = () => {
+      if (disabled) return;
       const rectangle = card.getBoundingClientRect();
       Array.from({ length: particleCount }).forEach((_, index) => {
         const timer = window.setTimeout(() => {
@@ -123,10 +129,12 @@ export function MagicBentoCard({ children, className = "", glowColor = DEFAULT_G
     };
 
     const onEnter = () => {
+      if (disabled) return;
       hoveredRef.current = true;
       createParticles();
     };
     const onMove = (event: MouseEvent) => {
+      if (disabled) return;
       const rectangle = card.getBoundingClientRect();
       const x = event.clientX - rectangle.left;
       const y = event.clientY - rectangle.top;
@@ -135,11 +143,13 @@ export function MagicBentoCard({ children, className = "", glowColor = DEFAULT_G
       gsap.to(card, { rotateX: normalizedY * -3.5, rotateY: normalizedX * 3.5, x: normalizedX * 3, y: normalizedY * 3 - 4, transformPerspective: 1100, duration: 0.16, ease: "power2.out", overwrite: true });
     };
     const onLeave = () => {
+      if (disabled) return;
       hoveredRef.current = false;
       clearParticles();
       gsap.to(card, { rotateX: 0, rotateY: 0, x: 0, y: 0, duration: 0.28, ease: "power2.out", overwrite: true });
     };
     const onClick = (event: MouseEvent) => {
+      if (disabled) return;
       const rectangle = card.getBoundingClientRect();
       const x = event.clientX - rectangle.left;
       const y = event.clientY - rectangle.top;
@@ -168,7 +178,7 @@ export function MagicBentoCard({ children, className = "", glowColor = DEFAULT_G
       clearParticles();
       gsap.killTweensOf(card);
     };
-  }, [clearParticles, glowColor, particleCount]);
+  }, [clearParticles, glowColor, particleCount, disabled]);
 
   return (
     <a ref={cardRef} className={`${className} magic-bento-card`} style={{ "--magic-rgb": glowColor } as React.CSSProperties} {...props}>

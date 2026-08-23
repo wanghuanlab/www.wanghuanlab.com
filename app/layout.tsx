@@ -6,18 +6,29 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.wanghuanlab.com"),
+  metadataBase: new URL("https://wanghuanlab.com"),
   title: "欢的实验室｜Wanghuan Lab",
   description: "欢的实验室——个人作品、数字产品与智能体实验的导航入口。",
-  icons: { icon: "/favicon.png", shortcut: "/favicon.png" },
+  alternates: { canonical: "/" },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/apple-touch-icon.png",
+  },
+  manifest: "/site.webmanifest",
   openGraph: {
     title: "欢的实验室｜Wanghuan Lab",
     description: "一些想法，正在这里发生。探索数字产品、智能体与持续生长的实验。",
     type: "website",
     locale: "zh_CN",
-    images: [{ url: "/og.png", width: 1731, height: 909, alt: "欢的实验室｜Wanghuan Lab" }],
+    url: "https://wanghuanlab.com",
+    siteName: "欢的实验室",
+    images: [{ url: "/og.jpg", width: 1200, height: 630, alt: "欢的实验室｜Wanghuan Lab" }],
   },
-  twitter: { card: "summary_large_image", title: "欢的实验室｜Wanghuan Lab", description: "一些想法，正在这里发生。", images: ["/og.png"] },
+  twitter: { card: "summary_large_image", title: "欢的实验室｜Wanghuan Lab", description: "一些想法，正在这里发生。", images: ["/og.jpg"] },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

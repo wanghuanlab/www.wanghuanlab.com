@@ -1,134 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Lightfall from "./components/Lightfall";
+import { Suspense, lazy, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { MagicBentoCard, MagicBentoGrid } from "./components/MagicBento";
+import { Modal } from "./components/Modal";
+import { SearchOverlay } from "./components/SearchOverlay";
+import { PortalIcon } from "./components/icons";
+import { PORTALS, PORTAL_TABS, STATUS_LABELS } from "./data/portals";
+import type { Portal, PortalCategory, PortalTabId } from "./data/portals";
+import { RECENT_LIMIT, useLiteMode, usePortalStatus, useRecentPortals } from "./lib/hooks";
 
 const LIGHTFALL_COLORS = ["#39F3FF", "#6B62FF", "#B85CFF"];
 
-const portals = [
-  {
-    id: "01",
-    eyebrow: "INFRA / SERVER",
-    title: "服务器管理平台",
-    description: "服务器、应用与基础设施的统一管理入口。",
-    domain: "1panel.wanghuanlab.com",
-    href: "http://1panel.wanghuanlab.com",
-    className: "portal--one",
-    categories: ["common", "infrastructure"],
-  },
-  {
-    id: "02",
-    eyebrow: "AGENT / ZENTAO",
-    title: "禅道填报智能体",
-    description: "连接禅道工作流的智能填报与协作助手。",
-    domain: "zentao.wanghuanlab.com",
-    href: "http://zentao.wanghuanlab.com",
-    className: "portal--two",
-    categories: ["common", "agents"],
-  },
-  {
-    id: "03",
-    eyebrow: "KNOWLEDGE / RAG",
-    title: "RAG",
-    description: "检索增强生成与私有知识库实验平台。",
-    domain: "rag.wanghuanlab.com",
-    href: "http://rag.wanghuanlab.com",
-    className: "portal--three",
-    categories: ["infrastructure"],
-  },
-  {
-    id: "04",
-    eyebrow: "MIDDLEWARE / MQ",
-    title: "RocketMQ",
-    description: "消息队列与分布式事件链路管理入口。",
-    domain: "rocketmq.wanghuanlab.com",
-    href: "http://rocketmq.wanghuanlab.com",
-    className: "portal--four",
-    categories: ["infrastructure"],
-  },
-  {
-    id: "05",
-    eyebrow: "AGENT / OPENCLAW",
-    title: "龙虾智能体",
-    description: "OpenClaw 智能体的工作与交互空间。",
-    domain: "openclaw.wanghuanlab.com",
-    href: "http://openclaw.wanghuanlab.com",
-    className: "portal--five",
-    categories: ["agents"],
-  },
-  {
-    id: "06",
-    eyebrow: "VISION / USP",
-    title: "AI 视觉规范统一驾驭",
-    description: "统一生成、校准与驾驭 AI 视觉规范。",
-    domain: "usp.wanghuanlab.com",
-    href: "http://usp.wanghuanlab.com",
-    className: "portal--six",
-    categories: ["agents"],
-  },
-  {
-    id: "07",
-    eyebrow: "DATABASE / MONGODB",
-    title: "MongoDB",
-    description: "MongoDB 数据库管理与运维入口。",
-    domain: "mongo.wanghuanlab.com",
-    href: "http://mongo.wanghuanlab.com/",
-    className: "portal--seven",
-    categories: ["infrastructure"],
-  },
-  {
-    id: "08",
-    eyebrow: "UTILITY / TRANSFER",
-    title: "文件中转服务",
-    description: "轻量、安全的临时文件上传、分享与中转入口。",
-    domain: "oss.wanghuanlab.com",
-    href: "https://oss.wanghuanlab.com/",
-    className: "portal--eight",
-    categories: ["common", "tools"],
-  },
-  {
-    id: "09",
-    eyebrow: "ENERGY / PROTOTYPE",
-    title: "长江电力 新一代生产经营管理系统",
-    description: "面向大型能源企业的新一代数字化生产经营管理体验。",
-    domain: "prototype.wanghuanlab.com",
-    href: "https://prototype.wanghuanlab.com",
-    className: "portal--nine",
-    categories: ["common", "projects"],
-  },
-  {
-    id: "10",
-    eyebrow: "INVEST / LAB",
-    title: "Invest Lab",
-    description: "投资研究、资产观察与机会洞察的个人实验空间。",
-    domain: "invest.wanghuanlab.com",
-    href: "https://invest.wanghuanlab.com/",
-    className: "portal--ten",
-    categories: ["projects"],
-  },
-  {
-    id: "11",
-    eyebrow: "AI / VIBE CODING",
-    title: "VibeCoding 实战培训",
-    description: "从 AI 辅助编码到智能开发工作流的实战学习空间。",
-    domain: "vibecoding.wanghuanlab.com",
-    href: "https://vibecoding.wanghuanlab.com/",
-    className: "portal--eleven",
-    categories: ["tools"],
-  },
-];
+const Lightfall = lazy(() => import("./components/Lightfall"));
 
-const portalTabs = [
-  { id: "all", label: "全部" },
-  { id: "common", label: "常用入口" },
-  { id: "infrastructure", label: "基础设施" },
-  { id: "agents", label: "智能体" },
-  { id: "tools", label: "工具服务" },
-  { id: "projects", label: "项目作品" },
-];
+/* ------------------------------------------------------------------ */
+/* 粒子背景：lite 模式与减少动效下降低密度                              */
+/* ------------------------------------------------------------------ */
 
-function ParticleField() {
+function ParticleField({ density = 120 }: { density?: number }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -142,7 +31,8 @@ function ParticleField() {
     let pointerX = 0;
     let pointerY = 0;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const particles = Array.from({ length: reduced ? 45 : 120 }, () => ({
+    const count = Math.max(12, Math.min(reduced ? 45 : density, 160));
+    const particles = Array.from({ length: count }, () => ({
       x: Math.random(),
       y: Math.random(),
       z: Math.random(),
@@ -190,24 +80,141 @@ function ParticleField() {
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", move);
     };
-  }, []);
+  }, [density]);
 
   return <canvas ref={canvasRef} className="particle-field" aria-hidden="true" />;
 }
 
+/* ------------------------------------------------------------------ */
+/* Lightfall 延迟加载：首屏后 600ms 再拉取 OGL 分块；lite 下不加载      */
+/* ------------------------------------------------------------------ */
+
+function DeferredLightfall({ lite }: { lite: boolean }) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    if (lite) return;
+    const id = window.setTimeout(() => setReady(true), 600);
+    return () => window.clearTimeout(id);
+  }, [lite]);
+
+  if (lite || !ready) return null;
+  return (
+    <Suspense fallback={null}>
+      <Lightfall
+        colors={LIGHTFALL_COLORS}
+        backgroundColor="#070A1E"
+        speed={0.58}
+        streakCount={4}
+        streakWidth={0.8}
+        streakLength={1.4}
+        glow={0.72}
+        density={0.68}
+        twinkle={0.72}
+        zoom={2.7}
+        backgroundGlow={0.26}
+        opacity={0.4}
+        mouseInteraction
+        mouseStrength={0.75}
+        mouseRadius={0.78}
+        mouseDampening={0.18}
+        mixBlendMode="screen"
+        dpr={1.25}
+      />
+    </Suspense>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* 更新记录                                                             */
+/* ------------------------------------------------------------------ */
+
+const CHANGELOG: { date: string; tag: string; title: string; items: string[] }[] = [
+  {
+    date: "2026-08-23",
+    tag: "v0.3",
+    title: "导航站功能增强",
+    items: ["Cmd+K 快速搜索全部入口", "入口在线状态实时探测与 HTTP 标记", "手动置顶优先展示（其余保持固定顺序）", "Lite 低功耗模式（默认关闭，可手动开启）", "状态标签固定右上角对齐", "WebGL 不可用时背景优雅降级", "关于实验室与更新记录面板"],
+  },
+  {
+    date: "2026-08-05",
+    tag: "v0.2.1",
+    title: "导航筛选与首屏布局",
+    items: ["分类筛选与滚动提示", "首屏布局与超宽屏适配优化"],
+  },
+  {
+    date: "2026-07-16",
+    tag: "v0.2",
+    title: "动效与听觉体验",
+    items: ["Lightfall 光雨背景", "MagicBento 卡片光晕、粒子与涟漪", "悬停合成音效与网易云音乐胶囊"],
+  },
+  {
+    date: "2026-07-10",
+    tag: "v0.1",
+    title: "实验室上线",
+    items: ["11 个入口导航上线", "百度统计接入"],
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/* 首页                                                                 */
+/* ------------------------------------------------------------------ */
+
 export default function Home() {
   const [musicOpen, setMusicOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState<PortalTabId>("all");
   const [showScrollHint, setShowScrollHint] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
+  const [updatesOpen, setUpdatesOpen] = useState(false);
   const hoverAudioRef = useRef<AudioContext | null>(null);
-  const visiblePortals = activeCategory === "all" ? portals : portals.filter((portal) => portal.categories.includes(activeCategory));
+  const prevRectsRef = useRef<Map<string, DOMRect>>(new Map());
 
+  const { lite, setMode } = useLiteMode();
+  const { states, probing, onlineCount, probedCount, httpCount, refresh } = usePortalStatus(PORTALS);
+  const { pins, recentIds, recordClick, togglePin } = useRecentPortals();
+
+  const pinnedSet = useMemo(() => new Set(pins), [pins]);
+
+  /* 可见入口：全部 = 置顶前置 + 其余保持数据原始顺序；最近 = 最近点击 */
+  const visiblePortals = useMemo(() => {
+    if (activeCategory === "recent") {
+      return recentIds
+        .map((id) => PORTALS.find((portal) => portal.id === id))
+        .filter((portal): portal is Portal => Boolean(portal));
+    }
+    const base =
+      activeCategory === "all"
+        ? PORTALS
+        : PORTALS.filter((portal) => portal.categories.includes(activeCategory as PortalCategory));
+    if (activeCategory !== "all") return base;
+    const pinned = base
+      .filter((portal) => pinnedSet.has(portal.id))
+      .sort((a, b) => pins.indexOf(a.id) - pins.indexOf(b.id));
+    const others = base.filter((portal) => !pinnedSet.has(portal.id));
+    return [...pinned, ...others];
+  }, [activeCategory, pins, pinnedSet, recentIds]);
+
+  /* 全局开关：Cmd+K / Ctrl+K 搜索 */
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setSearchOpen((open) => !open);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  /* 悬停合成音效（lite 下静音） */
   const getHoverAudio = () => {
     hoverAudioRef.current ??= new AudioContext();
     return hoverAudioRef.current;
   };
 
   const playPortalHover = (portalNumber: number) => {
+    if (lite) return;
     const audio = getHoverAudio();
     const emit = () => {
       if (audio.state !== "running") return;
@@ -259,6 +266,7 @@ export default function Home() {
     };
   }, []);
 
+  /* 滚动提示 */
   useEffect(() => {
     const updateScrollHint = () => {
       const grid = document.getElementById("portal-navigation");
@@ -275,30 +283,69 @@ export default function Home() {
     };
   }, [activeCategory]);
 
+  /* 分类切换的 FLIP 动画：记录旧位置 → 渲染后平滑归位 */
+  const flipDisabled = () => lite || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const selectCategory = (tab: PortalTabId) => {
+    if (tab === activeCategory) return;
+    const grid = document.getElementById("portal-navigation");
+    if (grid && !flipDisabled()) {
+      const rects = new Map<string, DOMRect>();
+      grid.querySelectorAll<HTMLElement>("[data-portal-id]").forEach((element) => {
+        const id = element.dataset.portalId;
+        if (id) rects.set(id, element.getBoundingClientRect());
+      });
+      prevRectsRef.current = rects;
+    } else {
+      prevRectsRef.current.clear();
+    }
+    if (grid) grid.scrollTop = 0;
+    setActiveCategory(tab);
+  };
+
+  useLayoutEffect(() => {
+    if (!prevRectsRef.current.size) return;
+    const grid = document.getElementById("portal-navigation");
+    if (!grid) {
+      prevRectsRef.current.clear();
+      return;
+    }
+    const frame = window.requestAnimationFrame(() => {
+      window.requestAnimationFrame(() => {
+        grid.querySelectorAll<HTMLElement>("[data-portal-id]").forEach((element) => {
+          const id = element.dataset.portalId;
+          const previous = id ? prevRectsRef.current.get(id) : undefined;
+          if (!previous) return;
+          const next = element.getBoundingClientRect();
+          const dx = previous.left - next.left;
+          const dy = previous.top - next.top;
+          if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
+            element.animate(
+              [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: "translate(0, 0)" }],
+              { duration: 340, easing: "cubic-bezier(.2,.8,.2,1)" },
+            );
+          }
+        });
+        prevRectsRef.current.clear();
+      });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [activeCategory]);
+
+  const tabCount = (tabId: PortalTabId) =>
+    tabId === "all" ? PORTALS.length : tabId === "recent" ? Math.min(recentIds.length, RECENT_LIMIT) : PORTALS.filter((portal) => portal.categories.includes(tabId as PortalCategory)).length;
+
+  const statusText = probing
+    ? "PROBING…"
+    : probedCount === 0
+      ? "CHECKING…"
+      : `${onlineCount}/${probedCount} ONLINE`;
+
   return (
     <main className="laboratory">
-      <ParticleField />
+      <ParticleField density={lite ? 24 : 120} />
       <div className="lightfall-layer" aria-hidden="true">
-        <Lightfall
-          colors={LIGHTFALL_COLORS}
-          backgroundColor="#070A1E"
-          speed={0.58}
-          streakCount={4}
-          streakWidth={0.8}
-          streakLength={1.4}
-          glow={0.72}
-          density={0.68}
-          twinkle={0.72}
-          zoom={2.7}
-          backgroundGlow={0.26}
-          opacity={0.4}
-          mouseInteraction
-          mouseStrength={0.75}
-          mouseRadius={0.78}
-          mouseDampening={0.18}
-          mixBlendMode="screen"
-          dpr={1.25}
-        />
+        <DeferredLightfall lite={lite} />
       </div>
       <div className="ambient ambient--one" aria-hidden="true" />
       <div className="ambient ambient--two" aria-hidden="true" />
@@ -309,7 +356,53 @@ export default function Home() {
             <span><b>欢的实验室</b><small>WANGHUAN LAB</small></span>
           </a>
           <div className="topbar-meta">
-            <span className="status"><i /> 11 SYSTEMS ONLINE</span>
+            <button
+              className={`topbar-btn lite-toggle ${lite ? "is-active" : ""}`}
+              type="button"
+              onClick={() => setMode(lite ? "off" : "on")}
+              aria-pressed={lite}
+              title={lite ? "低功耗模式已开启，点击关闭" : "开启低功耗模式（减少背景动效）"}
+            >
+              <i className={`lite-dot ${lite ? "is-on" : ""}`} aria-hidden="true" />LITE
+            </button>
+            <button
+              className="topbar-btn status"
+              type="button"
+              onClick={() => refresh()}
+              title="点击重新探测在线状态"
+            >
+              <i className={`status-dot ${probing ? "is-probing" : ""}`} aria-hidden="true" />
+              {statusText}
+              {httpCount > 0 ? <span className="status-http"> · {httpCount} HTTP</span> : null}
+            </button>
+            <button
+              className="topbar-btn search-toggle"
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={searchOpen}
+              title="搜索入口（⌘K / Ctrl+K）"
+            >
+              ⌘K
+            </button>
+            <button
+              className="topbar-btn"
+              type="button"
+              onClick={() => setAboutOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={aboutOpen}
+            >
+              ABOUT
+            </button>
+            <button
+              className="topbar-btn"
+              type="button"
+              onClick={() => setUpdatesOpen(true)}
+              aria-haspopup="dialog"
+              aria-expanded={updatesOpen}
+            >
+              UPDATES
+            </button>
             <div className={`music-shell ${musicOpen ? "is-open" : ""}`}>
               <button className="music-capsule" type="button" onClick={() => setMusicOpen((open) => !open)} aria-expanded={musicOpen} aria-controls="netease-player">
                 <span className="music-bars" aria-hidden="true"><i /><i /><i /><i /></span>
@@ -354,7 +447,7 @@ export default function Home() {
 
         <div className="navigation-stack">
           <div className="portal-tabs" aria-label="实验室导航分类">
-            {portalTabs.map((tab) => (
+            {PORTAL_TABS.map((tab) => (
               <button
                 key={tab.id}
                 id={`portal-tab-${tab.id}`}
@@ -362,30 +455,71 @@ export default function Home() {
                 type="button"
                 aria-pressed={activeCategory === tab.id}
                 aria-controls="portal-navigation"
-                onClick={() => setActiveCategory(tab.id)}
+                onClick={() => selectCategory(tab.id)}
               >
                 {tab.label}
-                <span>{(tab.id === "all" ? portals.length : portals.filter((portal) => portal.categories.includes(tab.id)).length).toString().padStart(2, "0")}</span>
+                <span>{tabCount(tab.id).toString().padStart(2, "0")}</span>
               </button>
             ))}
             {showScrollHint && <span className="portal-scroll-hint" aria-live="polite">SCROLL FOR MORE <b>↓</b></span>}
           </div>
-          <MagicBentoGrid key={activeCategory} id="portal-navigation" className="portal-grid" aria-label="实验室项目导航" aria-labelledby={`portal-tab-${activeCategory}`} glowColor="57, 243, 255" spotlightRadius={300} onScroll={(event) => {
-            const grid = event.currentTarget;
-            const remaining = grid.scrollHeight - grid.clientHeight - grid.scrollTop;
-            setShowScrollHint(grid.scrollHeight > grid.clientHeight + 4 && remaining > 4);
-          }}>
+          <MagicBentoGrid
+            id="portal-navigation"
+            className="portal-grid"
+            aria-label="实验室项目导航"
+            aria-labelledby={`portal-tab-${activeCategory}`}
+            glowColor="57, 243, 255"
+            spotlightRadius={300}
+            motionDisabled={lite}
+            onScroll={(event) => {
+              const grid = event.currentTarget;
+              const remaining = grid.scrollHeight - grid.clientHeight - grid.scrollTop;
+              setShowScrollHint(grid.scrollHeight > grid.clientHeight + 4 && remaining > 4);
+            }}
+          >
             {visiblePortals.map((portal) => (
-              <MagicBentoCard key={portal.id} className={`portal ${portal.className}`} href={portal.href} target="_blank" rel="noreferrer" glowColor={Number(portal.id) % 2 === 0 ? "107, 98, 255" : "57, 243, 255"} particleCount={6} onPointerEnter={(event) => event.pointerType === "mouse" && playPortalHover(Number(portal.id))}>
-                <span className="portal-index">{portal.id}</span>
-                <span className="portal-copy">
-                  <span className="portal-eyebrow">{portal.eyebrow}</span>
-                  <strong>{portal.title.split("\n").map((line, index) => <span key={line}>{line}{index === 0 && portal.title.includes("\n") ? <br /> : null}</span>)}</strong>
-                  <span className="portal-description">{portal.description}</span>
-                  <span className="portal-domain"><i />{portal.domain}</span>
-                </span>
-                <span className="portal-arrow" aria-hidden="true">↗</span>
-              </MagicBentoCard>
+              <div
+                key={portal.id}
+                className="portal-cell"
+                data-portal-id={portal.id}
+              >
+                <MagicBentoCard
+                  className="portal"
+                  href={portal.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  glowColor={Number(portal.id) % 2 === 0 ? "107, 98, 255" : "57, 243, 255"}
+                  particleCount={6}
+                  motionDisabled={lite}
+                  onPointerEnter={(event) => event.pointerType === "mouse" && playPortalHover(Number(portal.id))}
+                  onClick={() => recordClick(portal.id)}
+                >
+                  <span className="portal-index">{portal.id}</span>
+                  <span className="portal-copy">
+                    <span className="portal-eyebrow-row">
+                      <PortalIcon name={portal.icon} className="portal-icon" />
+                      <span className="portal-eyebrow">{portal.eyebrow}</span>
+                    </span>
+                    <strong>{portal.title}</strong>
+                    <span className="portal-description">{portal.description}</span>
+                    <span className="portal-domain">
+                      <i className={portal.https ? `is-${states[portal.id] ?? "unknown"}` : "is-http"} aria-hidden="true" />
+                      {portal.domain}
+                    </span>
+                  </span>
+                  <span className={`portal-status is-${portal.status}`}>{STATUS_LABELS[portal.status]}</span>
+                  <span className="portal-arrow" aria-hidden="true">↗</span>
+                </MagicBentoCard>
+                <button
+                  className={`portal-pin ${pinnedSet.has(portal.id) ? "is-pinned" : ""}`}
+                  type="button"
+                  aria-pressed={pinnedSet.has(portal.id)}
+                  aria-label={`${pinnedSet.has(portal.id) ? "取消置顶" : "置顶"}：${portal.title}`}
+                  onClick={() => togglePin(portal.id)}
+                >
+                  ★
+                </button>
+              </div>
             ))}
           </MagicBentoGrid>
         </div>
@@ -396,6 +530,40 @@ export default function Home() {
         <a className="icp" href="https://beian.miit.gov.cn/" target="_blank" rel="noreferrer">苏ICP备2026043670号</a>
         <span className="location">SUZHOU · CN</span>
       </footer>
+
+      <SearchOverlay key={searchOpen ? "open" : "closed"} open={searchOpen} onClose={() => setSearchOpen(false)} portals={PORTALS} recentIds={recentIds} />
+
+      <Modal open={aboutOpen} onClose={() => setAboutOpen(false)} title="关于实验室" eyebrow="ABOUT / WANGHUAN LAB">
+        <p>欢的实验室（Wanghuan Lab）是一个个人数字实验室：这里跑着我自建的服务器工具、智能体、知识库与产品原型，也是我持续折腾、验证想法的地方。</p>
+        <p>页面上的每个入口都是我在真实使用的服务——基础设施、AI 智能体、工具与作品按分类陈列；HTTPS 入口的状态实时探测，HTTP 入口会明确标注。</p>
+        <div className="about-facts">
+          <div><b>{PORTALS.length}</b><small>在线入口</small></div>
+          <div><b>{PORTALS.filter((portal) => portal.status === "stable").length}</b><small>稳定服务</small></div>
+          <div><b>∞</b><small>持续生长中</small></div>
+        </div>
+        <p className="about-contact">反馈与交流：欢迎在对应的产品入口中留言，或通过 UPDATES 面板了解最新进展。</p>
+        {/* 个人联系方式（GitHub / 邮箱等）可在此补充，例如：
+            <a className="about-link" href="https://github.com/yourname" target="_blank" rel="noreferrer">GitHub</a> */}
+      </Modal>
+
+      <Modal open={updatesOpen} onClose={() => setUpdatesOpen(false)} title="更新记录" eyebrow="UPDATES / CHANGELOG">
+        <ol className="changelog">
+          {CHANGELOG.map((entry) => (
+            <li key={entry.tag}>
+              <span className="changelog-meta">
+                <time>{entry.date}</time>
+                <b>{entry.tag}</b>
+              </span>
+              <strong>{entry.title}</strong>
+              <ul>
+                {entry.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ol>
+      </Modal>
     </main>
   );
 }
