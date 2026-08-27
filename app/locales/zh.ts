@@ -103,6 +103,11 @@ export const zh: TranslationSchema = {
       title: "VibeCoding 实战培训",
       description: "从 AI 辅助编码到智能开发工作流的实战学习空间。",
     },
+    "12": {
+      eyebrow: "VISUAL / RENDER",
+      title: "可视化与云渲染专题",
+      description: "面向三维数字孪生、GIS、超高分辨率大屏的工程技术专题：云渲染架构、GPU 算力与分布式渲染。",
+    },
   },
   search: {
     placeholder: "搜索标题、描述、域名或分类…",
@@ -127,6 +132,12 @@ export const zh: TranslationSchema = {
     title: "更新记录",
     eyebrow: "UPDATES / CHANGELOG",
     changelog: [
+      {
+        date: "2026-08-27",
+        tag: "v0.3.1",
+        title: "新增可视化与云渲染专题入口",
+        items: ["上线 Pixel Notes 可视化与云渲染技术专题导航卡片"],
+      },
       {
         date: "2026-08-23",
         tag: "v0.3",

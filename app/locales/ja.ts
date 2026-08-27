@@ -103,6 +103,11 @@ export const ja: TranslationSchema = {
       title: "VibeCoding 実践トレーニング",
       description: "AI補助コーディングからインテリジェント開発フローまでの実践空間。",
     },
+    "12": {
+      eyebrow: "VISUAL / RENDER",
+      title: "可視化・クラウドレンダリング特集",
+      description: "3Dデジタルツイン、GIS、クラウドレンダリングアーキテクチャ、GPUコンピューティング技術のエンジニアリング特集。",
+    },
   },
   search: {
     placeholder: "タイトル、説明、ドメイン、カテゴリで検索…",
@@ -127,6 +132,12 @@ export const ja: TranslationSchema = {
     title: "更新履歴",
     eyebrow: "UPDATES / CHANGELOG",
     changelog: [
+      {
+        date: "2026-08-27",
+        tag: "v0.3.1",
+        title: "可視化・クラウドレンダリング特集ポータルの追加",
+        items: ["Pixel Notes 可視化およびクラウドレンダリング技術ポータルカードの公開"],
+      },
       {
         date: "2026-08-23",
         tag: "v0.3",

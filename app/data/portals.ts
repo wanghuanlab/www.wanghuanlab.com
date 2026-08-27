@@ -159,6 +159,18 @@ export const PORTALS: Portal[] = [
     status: "stable",
     icon: "code",
   },
+  {
+    id: "12",
+    eyebrow: "VISUAL / RENDER",
+    title: "可视化与云渲染专题",
+    description: "面向三维数字孪生、GIS、超高分辨率大屏的工程技术专题：云渲染架构、GPU 算力与分布式渲染。",
+    domain: "visualization.wanghuanlab.com",
+    href: "http://visualization.wanghuanlab.com",
+    https: false,
+    categories: ["common", "projects"],
+    status: "stable",
+    icon: "eye",
+  },
 ];
 
 export type PortalTabId = "all" | PortalCategory | "recent";

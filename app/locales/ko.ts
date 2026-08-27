@@ -103,6 +103,11 @@ export const ko: TranslationSchema = {
       title: "VibeCoding 실전 트레이닝",
       description: "AI 보조 코딩부터 지능형 개발 워크플로까지의 실전 학습 공간.",
     },
+    "12": {
+      eyebrow: "VISUAL / RENDER",
+      title: "시각화 및 클라우드 렌더링",
+      description: "3D 디지털 트윈, GIS, 초고해상도 대형 스크린, 클라우드 렌더링 아키텍처 및 GPU 컴퓨팅 엔지니어링 포털.",
+    },
   },
   search: {
     placeholder: "제목, 설명, 도메인 또는 카테고리 검색…",
@@ -127,6 +132,12 @@ export const ko: TranslationSchema = {
     title: "업데이트 기록",
     eyebrow: "UPDATES / CHANGELOG",
     changelog: [
+      {
+        date: "2026-08-27",
+        tag: "v0.3.1",
+        title: "시각화 및 클라우드 렌더링 포털 추가",
+        items: ["Pixel Notes 시각화 및 클라우드 렌더링 기술 포털 카드 오픈"],
+      },
       {
         date: "2026-08-23",
         tag: "v0.3",

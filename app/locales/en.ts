@@ -103,6 +103,11 @@ export const en: TranslationSchema = {
       title: "VibeCoding Hands-on Training",
       description: "Practical workspace for AI-assisted coding and intelligent dev workflows.",
     },
+    "12": {
+      eyebrow: "VISUAL / RENDER",
+      title: "Visualization & Cloud Render Tech",
+      description: "Engineering notes on 3D digital twins, GIS, cloud rendering architectures, GPU computing, and distributed rendering.",
+    },
   },
   search: {
     placeholder: "Search title, description, domain, or category…",
@@ -127,6 +132,12 @@ export const en: TranslationSchema = {
     title: "Updates & Changelog",
     eyebrow: "UPDATES / CHANGELOG",
     changelog: [
+      {
+        date: "2026-08-27",
+        tag: "v0.3.1",
+        title: "Added Visualization & Cloud Render Portal",
+        items: ["Launched Pixel Notes visualization and cloud rendering technology portal card"],
+      },
       {
         date: "2026-08-23",
         tag: "v0.3",
