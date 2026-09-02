@@ -171,6 +171,18 @@ export const PORTALS: Portal[] = [
     status: "stable",
     icon: "eye",
   },
+  {
+    id: "13",
+    eyebrow: "ENERGY / HSE",
+    title: "长江电力安全智能管控系统",
+    description: "面向能源生产场景的安全风险智能管控与协同平台。",
+    domain: "hse.wanghuanlab.com",
+    href: "https://hse.wanghuanlab.com/",
+    https: true,
+    categories: ["common", "projects"],
+    status: "stable",
+    icon: "energy",
+  },
 ];
 
 export type PortalTabId = "all" | PortalCategory | "recent";

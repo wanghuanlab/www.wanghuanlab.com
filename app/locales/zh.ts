@@ -108,6 +108,11 @@ export const zh: TranslationSchema = {
       title: "可视化与云渲染专题",
       description: "面向三维数字孪生、GIS、超高分辨率大屏的工程技术专题：云渲染架构、GPU 算力与分布式渲染。",
     },
+    "13": {
+      eyebrow: "ENERGY / HSE",
+      title: "长江电力安全智能管控系统",
+      description: "面向能源生产场景的安全风险智能管控与协同平台。",
+    },
   },
   search: {
     placeholder: "搜索标题、描述、域名或分类…",
