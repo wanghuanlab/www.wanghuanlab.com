@@ -108,6 +108,11 @@ export const en: TranslationSchema = {
       title: "Visualization & Cloud Render Tech",
       description: "Engineering notes on 3D digital twins, GIS, cloud rendering architectures, GPU computing, and distributed rendering.",
     },
+    "14": {
+      eyebrow: "UTILITY / SCP",
+      title: "SeaTunnel Control Plane",
+      description: "A SeaTunnel control panel that replaces seaTunnel-web.",
+    },
   },
   search: {
     placeholder: "Search title, description, domain, or category…",

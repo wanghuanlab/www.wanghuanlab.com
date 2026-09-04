@@ -113,6 +113,11 @@ export const zh: TranslationSchema = {
       title: "长江电力安全智能管控系统",
       description: "面向能源生产场景的安全风险智能管控与协同平台。",
     },
+    "14": {
+      eyebrow: "UTILITY / SCP",
+      title: "SeaTunnel 控制面板",
+      description: "替代 seaTunnel-web 的 SeaTunnel 控制面板。",
+    },
   },
   search: {
     placeholder: "搜索标题、描述、域名或分类…",

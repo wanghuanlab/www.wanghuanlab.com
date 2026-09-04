@@ -183,6 +183,18 @@ export const PORTALS: Portal[] = [
     status: "stable",
     icon: "energy",
   },
+  {
+    id: "14",
+    eyebrow: "UTILITY / SCP",
+    title: "SeaTunnel 控制面板",
+    description: "替代 seaTunnel-web 的 SeaTunnel 控制面板。",
+    domain: "scp.wanghuanlab.com",
+    href: "https://scp.wanghuanlab.com/",
+    https: true,
+    categories: ["common", "tools"],
+    status: "stable",
+    icon: "layers",
+  },
 ];
 
 export type PortalTabId = "all" | PortalCategory | "recent";

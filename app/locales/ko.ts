@@ -108,6 +108,11 @@ export const ko: TranslationSchema = {
       title: "시각화 및 클라우드 렌더링",
       description: "3D 디지털 트윈, GIS, 초고해상도 대형 스크린, 클라우드 렌더링 아키텍처 및 GPU 컴퓨팅 엔지니어링 포털.",
     },
+    "14": {
+      eyebrow: "UTILITY / SCP",
+      title: "SeaTunnel 컨트롤 플레인",
+      description: "seaTunnel-web을 대체하는 SeaTunnel 컨트롤 패널.",
+    },
   },
   search: {
     placeholder: "제목, 설명, 도메인 또는 카테고리 검색…",

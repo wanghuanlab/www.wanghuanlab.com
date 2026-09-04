@@ -108,6 +108,11 @@ export const ja: TranslationSchema = {
       title: "可視化・クラウドレンダリング特集",
       description: "3Dデジタルツイン、GIS、クラウドレンダリングアーキテクチャ、GPUコンピューティング技術のエンジニアリング特集。",
     },
+    "14": {
+      eyebrow: "UTILITY / SCP",
+      title: "SeaTunnel コントロールパネル",
+      description: "seaTunnel-web に代わる SeaTunnel コントロールパネル。",
+    },
   },
   search: {
     placeholder: "タイトル、説明、ドメイン、カテゴリで検索…",
