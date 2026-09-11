@@ -118,6 +118,11 @@ export const zh: TranslationSchema = {
       title: "SeaTunnel 控制面板",
       description: "替代 seaTunnel-web 的 SeaTunnel 控制面板。",
     },
+    "15": {
+      eyebrow: "AI / GRAPH",
+      title: "AIGraph",
+      description: "人工智能全栈知识图谱与实战研习社，通过图谱连接 AI 知识点与学习速查。",
+    },
   },
   search: {
     placeholder: "搜索标题、描述、域名或分类…",

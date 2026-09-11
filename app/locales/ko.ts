@@ -113,6 +113,11 @@ export const ko: TranslationSchema = {
       title: "SeaTunnel 컨트롤 플레인",
       description: "seaTunnel-web을 대체하는 SeaTunnel 컨트롤 패널.",
     },
+    "15": {
+      eyebrow: "AI / GRAPH",
+      title: "AIGraph",
+      description: "인공지능 풀스택 지식 그래프 및 실전 학습 커뮤니티, 지식 포인트와 빠른 참조 연결.",
+    },
   },
   search: {
     placeholder: "제목, 설명, 도메인 또는 카테고리 검색…",

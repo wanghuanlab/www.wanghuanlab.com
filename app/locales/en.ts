@@ -113,6 +113,11 @@ export const en: TranslationSchema = {
       title: "SeaTunnel Control Plane",
       description: "A SeaTunnel control panel that replaces seaTunnel-web.",
     },
+    "15": {
+      eyebrow: "AI / GRAPH",
+      title: "AIGraph",
+      description: "Full-stack AI knowledge graph and practical study club connecting concepts and quick references.",
+    },
   },
   search: {
     placeholder: "Search title, description, domain, or category…",

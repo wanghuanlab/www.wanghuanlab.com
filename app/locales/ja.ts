@@ -113,6 +113,11 @@ export const ja: TranslationSchema = {
       title: "SeaTunnel コントロールパネル",
       description: "seaTunnel-web に代わる SeaTunnel コントロールパネル。",
     },
+    "15": {
+      eyebrow: "AI / GRAPH",
+      title: "AIGraph",
+      description: "AIフルスタックナレッジグラフと実践学習コミュニティ。知識とリファレンスを視覚的につなぐ。",
+    },
   },
   search: {
     placeholder: "タイトル、説明、ドメイン、カテゴリで検索…",

@@ -8,7 +8,7 @@ import type { TranslationSchema } from "../locales";
 
 export type PortalCategory = "common" | "infrastructure" | "agents" | "tools" | "projects";
 export type PortalStatus = "stable" | "beta" | "experimental";
-export type PortalIcon = "server" | "clipboard" | "layers" | "queue" | "bot" | "eye" | "database" | "transfer" | "energy" | "chart" | "code";
+export type PortalIcon = "server" | "clipboard" | "layers" | "queue" | "bot" | "eye" | "database" | "transfer" | "energy" | "chart" | "code" | "graph";
 
 export type Portal = {
   /** 序号，也用作稳定 key（01–99）。 */
@@ -194,6 +194,18 @@ export const PORTALS: Portal[] = [
     categories: ["common", "tools"],
     status: "stable",
     icon: "layers",
+  },
+  {
+    id: "15",
+    eyebrow: "AI / GRAPH",
+    title: "AIGraph",
+    description: "人工智能全栈知识图谱与实战研习社，通过图谱连接 AI 知识点与学习速查。",
+    domain: "aigraph.wanghuanlab.com",
+    href: "https://aigraph.wanghuanlab.com/",
+    https: true,
+    categories: ["common", "tools", "projects"],
+    status: "stable",
+    icon: "graph",
   },
 ];
 

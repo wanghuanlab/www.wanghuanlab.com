@@ -78,6 +78,14 @@ const PATHS: Record<PortalIcon, React.ReactNode> = {
       <path d="M8 6.5L2.5 12 8 17.5M16 6.5L21.5 12 16 17.5M13.5 4l-3 16" />
     </>
   ),
+  graph: (
+    <>
+      <circle cx="18" cy="5" r="3" />
+      <circle cx="6" cy="12" r="3" />
+      <circle cx="18" cy="19" r="3" />
+      <path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4" />
+    </>
+  ),
 };
 
 export function PortalIcon({ name, className = "" }: { name: PortalIcon; className?: string }) {
