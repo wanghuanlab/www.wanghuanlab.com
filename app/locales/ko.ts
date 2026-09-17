@@ -104,9 +104,9 @@ export const ko: TranslationSchema = {
       description: "AI 보조 코딩부터 지능형 개발 워크플로까지의 실전 학습 공간.",
     },
     "12": {
-      eyebrow: "VISUAL / RENDER",
-      title: "시각화 및 클라우드 렌더링",
-      description: "3D 디지털 트윈, GIS, 초고해상도 대형 스크린, 클라우드 렌더링 아키텍처 및 GPU 컴퓨팅 엔지니어링 포털.",
+      eyebrow: "TWIN / RENDER",
+      title: "디지털 트윈 및 클라우드 렌더링",
+      description: "3D 디지털 트윈, GIS 및 고해상도 비주얼 시스템을 위한 클라우드 렌더링 기술 포털.",
     },
     "14": {
       eyebrow: "UTILITY / SCP",

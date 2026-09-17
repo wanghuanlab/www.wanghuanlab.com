@@ -104,9 +104,9 @@ export const zh: TranslationSchema = {
       description: "从 AI 辅助编码到智能开发工作流的实战学习空间。",
     },
     "12": {
-      eyebrow: "VISUAL / RENDER",
-      title: "可视化与云渲染专题",
-      description: "面向三维数字孪生、GIS、超高分辨率大屏的工程技术专题：云渲染架构、GPU 算力与分布式渲染。",
+      eyebrow: "TWIN / RENDER",
+      title: "数字孪生与云渲染专题",
+      description: "面向三维数字孪生、GIS、超高分辨率大屏的工程技术专题。",
     },
     "13": {
       eyebrow: "ENERGY / HSE",

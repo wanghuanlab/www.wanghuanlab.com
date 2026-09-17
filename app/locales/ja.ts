@@ -104,9 +104,9 @@ export const ja: TranslationSchema = {
       description: "AI補助コーディングからインテリジェント開発フローまでの実践空間。",
     },
     "12": {
-      eyebrow: "VISUAL / RENDER",
-      title: "可視化・クラウドレンダリング特集",
-      description: "3Dデジタルツイン、GIS、クラウドレンダリングアーキテクチャ、GPUコンピューティング技術のエンジニアリング特集。",
+      eyebrow: "TWIN / RENDER",
+      title: "デジタルツイン・クラウドレンダリング特集",
+      description: "3Dデジタルツイン、GIS、高解像度ビジュアルシステム向けクラウドレンダリングの技術特集。",
     },
     "14": {
       eyebrow: "UTILITY / SCP",

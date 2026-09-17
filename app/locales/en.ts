@@ -104,9 +104,9 @@ export const en: TranslationSchema = {
       description: "Practical workspace for AI-assisted coding and intelligent dev workflows.",
     },
     "12": {
-      eyebrow: "VISUAL / RENDER",
-      title: "Visualization & Cloud Render Tech",
-      description: "Engineering notes on 3D digital twins, GIS, cloud rendering architectures, GPU computing, and distributed rendering.",
+      eyebrow: "TWIN / RENDER",
+      title: "Digital Twin & Cloud Render Tech",
+      description: "Engineering notes on 3D digital twins, GIS, and cloud rendering for high-resolution visual systems.",
     },
     "14": {
       eyebrow: "UTILITY / SCP",
