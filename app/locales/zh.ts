@@ -123,6 +123,11 @@ export const zh: TranslationSchema = {
       title: "AIGraph",
       description: "人工智能全栈知识图谱与实战研习社，通过图谱连接 AI 知识点与学习速查。",
     },
+    "16": {
+      eyebrow: "DATA / EDMA",
+      title: "EDMA",
+      description: "EDMA 数字化工作空间与服务入口。",
+    },
   },
   search: {
     placeholder: "搜索标题、描述、域名或分类…",

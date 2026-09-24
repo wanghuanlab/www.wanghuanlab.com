@@ -207,6 +207,18 @@ export const PORTALS: Portal[] = [
     status: "stable",
     icon: "graph",
   },
+  {
+    id: "16",
+    eyebrow: "DATA / EDMA",
+    title: "EDMA",
+    description: "EDMA 数字化工作空间与服务入口。",
+    domain: "edma.wanghuanlab.com",
+    href: "https://edma.wanghuanlab.com/",
+    https: true,
+    categories: ["common", "tools"],
+    status: "stable",
+    icon: "layers",
+  },
 ];
 
 export type PortalTabId = "all" | PortalCategory | "recent";

@@ -118,6 +118,11 @@ export const en: TranslationSchema = {
       title: "AIGraph",
       description: "Full-stack AI knowledge graph and practical study club connecting concepts and quick references.",
     },
+    "16": {
+      eyebrow: "DATA / EDMA",
+      title: "EDMA",
+      description: "Digital workspace and service entry for EDMA.",
+    },
   },
   search: {
     placeholder: "Search title, description, domain, or category…",
