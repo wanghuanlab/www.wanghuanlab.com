@@ -118,6 +118,11 @@ export const ja: TranslationSchema = {
       title: "AIGraph",
       description: "AIフルスタックナレッジグラフと実践学習コミュニティ。知識とリファレンスを視覚的につなぐ。",
     },
+    "17": {
+      eyebrow: "PROJECT / ANE",
+      title: "ANE",
+      description: "ANE サービスへの入口。",
+    },
     "16": {
       eyebrow: "DATA / EDMA",
       title: "EDMA",

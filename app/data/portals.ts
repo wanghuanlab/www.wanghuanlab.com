@@ -52,6 +52,18 @@ export const PORTALS: Portal[] = [
     icon: "layers",
   },
   {
+    id: "17",
+    eyebrow: "PROJECT / ANE",
+    title: "ANE",
+    description: "ANE 服务入口。",
+    domain: "ane.wanghuanlab.com",
+    href: "https://ane.wanghuanlab.com/",
+    https: true,
+    categories: ["common", "projects"],
+    status: "stable",
+    icon: "layers",
+  },
+  {
     id: "12",
     eyebrow: "TWIN / RENDER",
     title: "数字孪生与云渲染专题",

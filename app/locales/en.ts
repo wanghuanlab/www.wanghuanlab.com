@@ -118,6 +118,11 @@ export const en: TranslationSchema = {
       title: "AIGraph",
       description: "Full-stack AI knowledge graph and practical study club connecting concepts and quick references.",
     },
+    "17": {
+      eyebrow: "PROJECT / ANE",
+      title: "ANE",
+      description: "Access the ANE service.",
+    },
     "16": {
       eyebrow: "DATA / EDMA",
       title: "EDMA",

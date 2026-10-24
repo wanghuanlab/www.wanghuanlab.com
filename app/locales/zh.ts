@@ -123,6 +123,11 @@ export const zh: TranslationSchema = {
       title: "AIGraph",
       description: "人工智能全栈知识图谱与实战研习社，通过图谱连接 AI 知识点与学习速查。",
     },
+    "17": {
+      eyebrow: "PROJECT / ANE",
+      title: "ANE",
+      description: "ANE 服务入口。",
+    },
     "16": {
       eyebrow: "DATA / EDMA",
       title: "EDMA",
