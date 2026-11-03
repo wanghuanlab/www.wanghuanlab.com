@@ -128,10 +128,20 @@ export const ja: TranslationSchema = {
       title: "EDMA",
       description: "EDMA のデジタルワークスペースとサービス入口。",
     },
+    "18": {
+      eyebrow: "LEARN / ENGLISH",
+      title: "拾音 英語練習室",
+      description: "アメリカ英語の発音・発音記号から日常の短い文まで、聞き取り・聞き分け・音読を自分のペースで練習。",
+    },
     "19": {
       eyebrow: "KNOWLEDGE / BLOG",
       title: "WangHuan Lab 技術ブログ",
       description: "ソフトウェア工学、システムアーキテクチャ、AI、ビッグデータと開発実践の記録。",
+    },
+    "20": {
+      eyebrow: "LEARN / TRADE",
+      title: "貿易入門 · Trade Playbook",
+      description: "貿易初心者のための学習・実践ガイド。B2B・B2C の基礎、模擬取引、書類テンプレート、実用ツールをまとめています。",
     },
   },
   search: {

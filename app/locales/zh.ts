@@ -133,10 +133,20 @@ export const zh: TranslationSchema = {
       title: "EDMA",
       description: "EDMA 数字化工作空间与服务入口。",
     },
+    "18": {
+      eyebrow: "LEARN / ENGLISH",
+      title: "拾音英语练习室",
+      description: "从美式发音与音标到生活简单句，听音、辨听、跟读，按自己的节奏练习英语。",
+    },
     "19": {
       eyebrow: "KNOWLEDGE / BLOG",
       title: "WangHuan Lab 技术博客",
       description: "记录软件工程、系统架构、AI、大数据与工程实践。",
+    },
+    "20": {
+      eyebrow: "LEARN / TRADE",
+      title: "外贸通识 · Trade Playbook",
+      description: "面向外贸新手的全流程学习与实践指南，串联 B2B/B2C 知识、模拟订单、单据模板与实用工具。",
     },
   },
   search: {

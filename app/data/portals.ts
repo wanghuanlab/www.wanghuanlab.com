@@ -8,7 +8,7 @@ import type { TranslationSchema } from "../locales";
 
 export type PortalCategory = "common" | "infrastructure" | "agents" | "tools" | "projects";
 export type PortalStatus = "stable" | "beta" | "experimental";
-export type PortalIcon = "server" | "clipboard" | "layers" | "queue" | "bot" | "eye" | "database" | "transfer" | "energy" | "chart" | "code" | "graph";
+export type PortalIcon = "server" | "clipboard" | "layers" | "queue" | "bot" | "eye" | "database" | "transfer" | "energy" | "chart" | "code" | "graph" | "headphones";
 
 export type Portal = {
   /** 序号，也用作稳定 key（01–99）。 */
@@ -232,6 +232,18 @@ export const PORTALS: Portal[] = [
     icon: "database",
   },
   {
+    id: "18",
+    eyebrow: "LEARN / ENGLISH",
+    title: "拾音英语练习室",
+    description: "从美式发音与音标到生活简单句，听音、辨听、跟读，按自己的节奏练习英语。",
+    domain: "english.wanghuanlab.com",
+    href: "https://english.wanghuanlab.com/",
+    https: true,
+    categories: ["tools", "projects"],
+    status: "beta",
+    icon: "headphones",
+  },
+  {
     id: "19",
     eyebrow: "KNOWLEDGE / BLOG",
     title: "WangHuan Lab 技术博客",
@@ -242,6 +254,18 @@ export const PORTALS: Portal[] = [
     categories: ["common", "projects"],
     status: "stable",
     icon: "code",
+  },
+  {
+    id: "20",
+    eyebrow: "LEARN / TRADE",
+    title: "外贸通识 · Trade Playbook",
+    description: "面向外贸新手的全流程学习与实践指南，串联 B2B/B2C 知识、模拟订单、单据模板与实用工具。",
+    domain: "trade.wanghuanlab.com",
+    href: "https://trade.wanghuanlab.com/",
+    https: true,
+    categories: ["tools", "projects"],
+    status: "beta",
+    icon: "layers",
   },
 ];
 

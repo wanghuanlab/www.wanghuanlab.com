@@ -128,10 +128,20 @@ export const en: TranslationSchema = {
       title: "EDMA",
       description: "Digital workspace and service entry for EDMA.",
     },
+    "18": {
+      eyebrow: "LEARN / ENGLISH",
+      title: "Shiyin English Practice",
+      description: "Practice American pronunciation, phonetic symbols, and everyday sentences through listening, sound discrimination, and speaking at your own pace.",
+    },
     "19": {
       eyebrow: "KNOWLEDGE / BLOG",
       title: "WangHuan Lab Tech Blog",
       description: "Notes on software engineering, system architecture, AI, big data, and engineering practice.",
+    },
+    "20": {
+      eyebrow: "LEARN / TRADE",
+      title: "Trade Playbook",
+      description: "A beginner’s guide to foreign trade, connecting B2B/B2C fundamentals, simulated orders, document templates, and practical tools.",
     },
   },
   search: {

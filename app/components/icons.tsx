@@ -6,6 +6,13 @@ import type { PortalIcon } from "../data/portals";
  */
 
 const PATHS: Record<PortalIcon, React.ReactNode> = {
+  headphones: (
+    <>
+      <path d="M4 14v-3a8 8 0 0 1 16 0v3" />
+      <rect x="3" y="12" width="4" height="9" rx="2" />
+      <rect x="17" y="12" width="4" height="9" rx="2" />
+    </>
+  ),
   server: (
     <>
       <rect x="3" y="4" width="18" height="7" rx="1.5" />

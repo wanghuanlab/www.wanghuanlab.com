@@ -128,10 +128,20 @@ export const ko: TranslationSchema = {
       title: "EDMA",
       description: "EDMA 디지털 워크스페이스 및 서비스 포털.",
     },
+    "18": {
+      eyebrow: "LEARN / ENGLISH",
+      title: "스인 영어 연습실",
+      description: "미국식 발음과 발음 기호부터 일상 문장까지, 듣기·소리 구별·따라 말하기를 자신의 속도로 연습하세요.",
+    },
     "19": {
       eyebrow: "KNOWLEDGE / BLOG",
       title: "WangHuan Lab 기술 블로그",
       description: "소프트웨어 엔지니어링, 시스템 아키텍처, AI, 빅데이터 및 개발 실무 기록.",
+    },
+    "20": {
+      eyebrow: "LEARN / TRADE",
+      title: "무역 입문 · Trade Playbook",
+      description: "무역 초보자를 위한 학습·실습 가이드. B2B/B2C 기초, 모의 주문, 서류 템플릿과 실용 도구를 연결합니다.",
     },
   },
   search: {
