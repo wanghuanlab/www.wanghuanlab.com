@@ -231,6 +231,18 @@ export const PORTALS: Portal[] = [
     status: "stable",
     icon: "database",
   },
+  {
+    id: "19",
+    eyebrow: "KNOWLEDGE / BLOG",
+    title: "WangHuan Lab 技术博客",
+    description: "记录软件工程、系统架构、AI、大数据与工程实践。",
+    domain: "blog.wanghuanlab.com",
+    href: "https://blog.wanghuanlab.com/",
+    https: true,
+    categories: ["common", "projects"],
+    status: "stable",
+    icon: "code",
+  },
 ];
 
 export type PortalTabId = "all" | PortalCategory | "recent";

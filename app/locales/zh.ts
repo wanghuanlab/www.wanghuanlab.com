@@ -133,6 +133,11 @@ export const zh: TranslationSchema = {
       title: "EDMA",
       description: "EDMA 数字化工作空间与服务入口。",
     },
+    "19": {
+      eyebrow: "KNOWLEDGE / BLOG",
+      title: "WangHuan Lab 技术博客",
+      description: "记录软件工程、系统架构、AI、大数据与工程实践。",
+    },
   },
   search: {
     placeholder: "搜索标题、描述、域名或分类…",

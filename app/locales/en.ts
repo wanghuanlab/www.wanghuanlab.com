@@ -128,6 +128,11 @@ export const en: TranslationSchema = {
       title: "EDMA",
       description: "Digital workspace and service entry for EDMA.",
     },
+    "19": {
+      eyebrow: "KNOWLEDGE / BLOG",
+      title: "WangHuan Lab Tech Blog",
+      description: "Notes on software engineering, system architecture, AI, big data, and engineering practice.",
+    },
   },
   search: {
     placeholder: "Search title, description, domain, or category…",

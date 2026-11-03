@@ -128,6 +128,11 @@ export const ko: TranslationSchema = {
       title: "EDMA",
       description: "EDMA 디지털 워크스페이스 및 서비스 포털.",
     },
+    "19": {
+      eyebrow: "KNOWLEDGE / BLOG",
+      title: "WangHuan Lab 기술 블로그",
+      description: "소프트웨어 엔지니어링, 시스템 아키텍처, AI, 빅데이터 및 개발 실무 기록.",
+    },
   },
   search: {
     placeholder: "제목, 설명, 도메인 또는 카테고리 검색…",
