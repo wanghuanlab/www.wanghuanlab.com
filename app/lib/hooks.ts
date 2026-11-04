@@ -113,6 +113,7 @@ export function usePortalStatus(portals: Portal[]) {
       if (!due.length) return;
 
       setProbing(true);
+      let remaining = due.length;
       due.forEach((portal, index) => {
         window.setTimeout(async () => {
           let state: ProbeState = "offline";
@@ -130,7 +131,8 @@ export function usePortalStatus(portals: Portal[]) {
           const next = readStatusCache();
           next[portal.id] = { state, at: Date.now() };
           writeStatusCache(next);
-          if (index === due.length - 1) setProbing(false);
+          remaining -= 1;
+          if (remaining === 0) setProbing(false);
         }, index * 250);
       });
     },

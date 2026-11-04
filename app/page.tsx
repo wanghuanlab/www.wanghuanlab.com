@@ -152,7 +152,7 @@ export default function Home() {
   const statusLabels = useMemo(() => getLocalizedStatusLabels(t), [t]);
 
   const { lite, setMode } = useLiteMode();
-  const { states, probing, onlineCount, probedCount, httpCount, refresh } = usePortalStatus(PORTALS);
+  const { states, probing, onlineCount, probedCount, refresh } = usePortalStatus(PORTALS);
   const { pins, recentIds, recordClick, togglePin } = useRecentPortals();
 
   const pinnedSet = useMemo(() => new Set(pins), [pins]);
@@ -316,11 +316,14 @@ export default function Home() {
   const tabCount = (tabId: PortalTabId) =>
     tabId === "all" ? PORTALS.length : tabId === "recent" ? Math.min(recentIds.length, RECENT_LIMIT) : PORTALS.filter((portal) => portal.categories.includes(tabId as PortalCategory)).length;
 
-  const statusText = probing
-    ? t.topbar.probing
-    : probedCount === 0
-      ? t.topbar.checking
-      : `${onlineCount}/${probedCount} ${t.topbar.online}`;
+  const uncheckedCount = PORTALS.length - probedCount;
+  const unreachableCount = probedCount - onlineCount;
+  const statusText = [
+    `${PORTALS.length} ${t.topbar.entries}`,
+    `${onlineCount} ${t.topbar.online}`,
+    ...(unreachableCount > 0 ? [`${unreachableCount} ${t.topbar.unreachable}`] : []),
+    ...(uncheckedCount > 0 ? [`${uncheckedCount} ${t.topbar.unchecked}`] : []),
+  ].join(" · ");
 
   return (
     <main className="laboratory">
@@ -352,10 +355,10 @@ export default function Home() {
               type="button"
               onClick={() => refresh()}
               title={t.topbar.refreshTitle}
+              aria-busy={probing}
             >
               <i className={`status-dot ${probing ? "is-probing" : ""}`} aria-hidden="true" />
               {statusText}
-              {httpCount > 0 ? <span className="status-http"> · {httpCount} {t.topbar.httpCount}</span> : null}
             </button>
             <button
               className="topbar-btn search-toggle"

@@ -32,6 +32,9 @@ export type TranslationSchema = {
     probing: string;
     checking: string;
     online: string;
+    entries: string;
+    unchecked: string;
+    unreachable: string;
     httpCount: string;
     refreshTitle: string;
     searchTitle: string;
